@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>转转的设计系统预览 v2.0</title>
+  <style>
+    /* ====== 转转的设计系统 v2.0 ====== */
+    /* 命名完全对应 Figma Tokens */
+
+    :root {
+      /* 基础色 */
+      --white: #ffffff;
+      --black: #000000;
+      --mask: rgba(0, 0, 0, 0.4);
+
+      /* ---------- 品牌色 (brand primary) ---------- */
+      --brand-primary-0: #0e58ea;
+      --brand-primary-1: #1161fe;
+      --brand-primary-2: #4080ff;
+      --brand-primary-3: #bed4ff;
+      --brand-primary-4: #e6edfa;
+      --brand-primary-5: #f4f7ff;
+
+      /* ---------- 边框色 (gray/border) ---------- */
+      --border-1: #86909c;
+      --border-2: #c9cdd4;
+      --border-3: #ebecef;
+      --border-4: #f2f3f5;
+
+      /* ---------- 填充色 (gray/fill) ---------- */
+      --fill-1: #5c6168;
+      --fill-2: #c9cdd4;
+      --fill-3: #f2f3f5;
+      --fill-4: #f7f8fa;
+      --fill-5: #ffffff;
+
+      /* ---------- 文字色 (gray/text) ---------- */
+      --text-1: #181818;
+      --text-2: #616161;
+      --text-3: #9e9e9e;
+      --text-4: #ffffff;
+
+      /* ---------- 中性色 (neutral) ---------- */
+      --neutral-0: #181818;
+      --neutral-1: #616161;
+      --neutral-2: #9e9e9e;
+      --neutral-3: #d3d4d5;
+      --neutral-4: #ebecef;
+      --neutral-5: #ffffff;
+
+      /* ---------- 成功色 (semantic/success) ---------- */
+      --success-0: #009a29;
+      --success-1: #00b42a;
+      --success-2: #23c343;
+      --success-3: #aff0b5;
+      --success-4: #e8ffea;
+
+      /* ---------- 警告色 (semantic/warning) ---------- */
+      --warning-0: #d25f00;
+      --warning-1: #ff7d00;
+      --warning-2: #ff9a2e;
+      --warning-3: #ffe4ba;
+      --warning-4: #fff7e8;
+
+      /* ---------- 危险色 (semantic/red) ---------- */
+      --red-0: #cb2634;
+      --red-1: #f53f3f;
+      --red-2: #f76560;
+      --red-3: #fdcdc5;
+      --red-4: #ffece8;
+
+      /* ---------- 间距 (space) ---------- */
+      --space-0: 0px;
+      --space-2: 2px;
+      --space-4: 4px;
+      --space-8: 8px;
+      --space-12: 12px;
+      --space-16: 16px;
+      --space-24: 24px;
+      --space-48: 48px;
+      --space-80: 80px;
+      --space-120: 120px;
+
+      /* ---------- 圆角 (Radius) ---------- */
+      --radius-0-none: 0px;
+      --radius-2-minismall: 2px;
+      --radius-4-small: 4px;
+      --radius-6-regular: 6px;
+      --radius-8-medium: 8px;
+      --radius-12-large: 12px;
+      --radius-999-round: 999px;
+
+      /* ---------- 组件高度 (height) ---------- */
+      --height-20-supersmall: 20px;
+      --height-24-minismall: 24px;
+      --height-28-small: 28px;
+      --height-32-medium: 32px;
+      --height-36-large: 36px;
+      --height-40-xlarge: 40px;
+      --height-44-superlarge: 44px;
+
+      /* ---------- 字号 (Font-size) ---------- */
+      --font-size-12: 12px;
+      --font-size-13: 13px;
+      --font-size-14: 14px;
+      --font-size-16: 16px;
+      --font-size-18: 18px;
+      --font-size-20: 20px;
+      --font-size-24: 24px;
+      --font-size-28: 28px;
+      --font-size-36: 36px;
+      --font-size-44: 44px;
+      --font-size-56: 56px;
+
+      /* ---------- 字重 (Font-weight) ---------- */
+      --font-weight-300-light: 300;
+      --font-weight-400-regular: 400;
+      --font-weight-500-medium: 500;
+      --font-weight-600-semibold: 600;
+      --font-weight-700-bold: 700;
+
+      /* 阴影（保持兼容） */
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+      /* 旧命名兼容（逐步废弃） */
+      --brand-0: var(--brand-primary-1);
+      --brand-1: var(--brand-primary-0);
+      --brand-2: var(--brand-primary-2);
+      --brand-3: var(--brand-primary-3);
+      --brand-4: var(--brand-primary-4);
+      --brand-5: var(--brand-primary-5);
+      --danger-1: var(--red-1);
+      --danger-4: var(--red-4);
+      --spacing-1: var(--space-4);
+      --spacing-2: var(--space-8);
+      --spacing-3: var(--space-12);
+      --spacing-4: var(--space-16);
+      --spacing-6: var(--space-24);
+      --spacing-12: var(--space-48);
+      --radius-sm: var(--radius-4-small);
+      --radius-md: var(--radius-6-regular);
+      --radius-lg: var(--radius-8-medium);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "PingFang SC", -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--fill-4);
+      padding: var(--spacing-12);
+      color: var(--text-1);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: var(--spacing-6);
+    }
+
+    h2 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: var(--spacing-4);
+      color: var(--text-2);
+    }
+
+    .section {
+      background: var(--fill-5);
+      padding: var(--spacing-6);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--spacing-6);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* ====== 主 Tab 切换 ====== */
+    .main-tabs {
+      display: flex;
+      gap: var(--spacing-2);
+      margin-bottom: var(--spacing-6);
+      border-bottom: 2px solid var(--border-3);
+      padding-bottom: var(--spacing-3);
+    }
+
+    .main-tab {
+      padding: var(--spacing-3) var(--spacing-6);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-3);
+      background: none;
+      border: none;
+      cursor: pointer;
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .main-tab:hover {
+      color: var(--text-2);
+      background: var(--fill-3);
+    }
+
+    .main-tab.active {
+      color: var(--brand-0);
+      background: var(--brand-5);
+    }
+
+    .main-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--brand-0);
+      margin-bottom: -1px;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* ====== Text Styles 展示 ====== */
+    .text-styles-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-6);
+    }
+
+    .text-style-group {
+      background: var(--fill-4);
+      padding: var(--spacing-4);
+      border-radius: var(--radius-md);
+    }
+
+    .text-style-group h3 {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-3);
+      margin-bottom: var(--spacing-3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .text-style-item {
+      display: flex;
+      align-items: baseline;
+      padding: var(--spacing-2) 0;
+      border-bottom: 1px solid var(--border-4);
+    }
+
+    .text-style-item:last-child { border-bottom: none; }
+
+    .text-style-label {
+      width: 110px;
+      flex-shrink: 0;
+      font-size: 12px;
+      color: var(--text-3);
+    }
+
+    .text-style-meta {
+      font-size: 11px;
+      color: var(--text-4);
+      margin-left: auto;
+      padding-left: var(--spacing-3);
+    }
+
+    /* Text Style 样式定义 */
+    .style-h0 { font-size: 56px; font-weight: 600; line-height: 64px; }
+    .style-h1 { font-size: 44px; font-weight: 600; line-height: 52px; }
+    .style-h2 { font-size: 36px; font-weight: 600; line-height: 44px; }
+    .style-h3 { font-size: 28px; font-weight: 600; line-height: 36px; }
+    .style-h4 { font-size: 24px; font-weight: 600; line-height: 32px; }
+    .style-h5 { font-size: 20px; font-weight: 600; line-height: 28px; }
+    .style-h6 { font-size: 18px; font-weight: 600; line-height: 26px; }
+    .style-lead { font-size: 20px; font-weight: 500; line-height: 28px; }
+    .style-p { font-size: 16px; font-weight: 400; line-height: 24px; }
+    .style-subtle { font-size: 14px; font-weight: 400; line-height: 22px; }
+    .style-small { font-size: 12px; font-weight: 400; line-height: 20px; }
+
+    /* ====== Variables 展示 ====== */
+    .var-section {
+      margin-bottom: var(--spacing-6);
+    }
+
+    .var-section h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-2);
+      margin-bottom: var(--spacing-3);
+      padding-bottom: var(--spacing-2);
+      border-bottom: 1px solid var(--border-3);
+    }
+
+    .var-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .var-table th,
+    .var-table td {
+      padding: var(--spacing-2) var(--spacing-3);
+      text-align: left;
+      border-bottom: 1px solid var(--border-4);
+    }
+
+    .var-table th {
+      font-weight: 500;
+      color: var(--text-3);
+      font-size: 12px;
+      background: var(--fill-4);
+    }
+
+    .var-table td {
+      font-family: "SF Mono", Monaco, monospace;
+      font-size: 12px;
+    }
+
+    .var-name { color: var(--brand-1); font-weight: 500; }
+    .var-value { color: var(--text-2); }
+    .var-desc { color: var(--text-3); font-family: inherit; }
+
+    /* 平台对比高亮 */
+    .platform-diff {
+      background: var(--warning-4);
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: var(--warning-1);
+    }
+
+    /* ====== 颜色展示 ====== */
+    .color-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-3);
+    }
+
+    .color-item { text-align: center; }
+
+    .color-box {
+      width: 60px;
+      height: 60px;
+      border-radius: var(--radius-md);
+      margin-bottom: var(--spacing-1);
+      border: 1px solid var(--border-3);
+    }
+
+    .color-label { font-size: 12px; color: var(--text-2); }
+    .color-value { font-size: 10px; color: var(--text-3); }
+    .color-desc { font-size: 10px; color: var(--text-4); }
+
+    /* ====== 阴影展示 ====== */
+    .shadow-demo { display: flex; gap: var(--spacing-6); flex-wrap: wrap; }
+    .shadow-item { text-align: center; }
+    .shadow-box {
+      width: 100px;
+      height: 60px;
+      background: var(--fill-5);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--spacing-2);
+    }
+
+    /* ====== 间距展示 ====== */
+    .spacing-item {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-3);
+      margin-bottom: var(--spacing-3);
+    }
+
+    .spacing-label {
+      width: 80px;
+      font-size: 13px;
+      color: var(--text-2);
+      text-align: right;
+    }
+
+    .spacing-block {
+      width: 40px;
+      height: 28px;
+      background: var(--brand-3);
+      border-radius: 2px;
+    }
+
+    .spacing-gap {
+      position: relative;
+      height: 28px;
+      display: flex;
+      align-items: center;
+    }
+
+    .spacing-gap::before,
+    .spacing-gap::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--danger-1);
+    }
+
+    .spacing-gap::before { left: 0; }
+    .spacing-gap::after { right: 0; }
+
+    .spacing-line {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--danger-1);
+    }
+
+    .spacing-value {
+      background: var(--fill-5);
+      padding: 0 4px;
+      font-size: 10px;
+      color: var(--danger-1);
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ====== 圆角展示 ====== */
+    .radius-demo { display: flex; gap: var(--spacing-4); flex-wrap: wrap; }
+    .radius-item { text-align: center; }
+    .radius-box { width: 60px; height: 60px; background: var(--brand-0); margin-bottom: var(--spacing-1); }
+
+    /* ====== 暗色模式 ====== */
+    .dark {
+      --fill-3: #3a3a3a;
+      --fill-4: #242424;
+      --fill-5: #181818;
+      --text-1: #ffffff;
+      --text-2: #c9cdd4;
+      --text-3: #86909c;
+      --text-4: #5c6168;
+      --border-3: #3a3a3a;
+      --border-4: #2a2a2a;
+      --brand-0: #4080ff;
+      --brand-5: #1a2a4a;
+    }
+
+    /* ====== 主题切换浮窗 ====== */
+    .theme-panel {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--fill-5);
+      border: 1px solid var(--border-3);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-4);
+      box-shadow: var(--shadow-lg);
+      z-index: 1000;
+    }
+
+    .theme-panel-title {
+      font-size: 13px;
+      color: var(--text-2);
+      margin-bottom: var(--spacing-3);
+      font-weight: 500;
+    }
+
+    .theme-options { display: flex; gap: var(--spacing-2); }
+
+    .theme-btn {
+      flex: 1;
+      padding: var(--spacing-2) var(--spacing-3);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 2px solid transparent;
+      background: var(--fill-3);
+      color: var(--text-2);
+    }
+
+    .theme-btn.active {
+      background: var(--brand-0);
+      color: var(--white);
+    }
+
+    .theme-panel-close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 24px;
+      height: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-3);
+    }
+
+    .theme-panel-toggle {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 48px;
+      height: 48px;
+      background: var(--brand-0);
+      color: var(--white);
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 20px;
+      display: none;
+      box-shadow: var(--shadow-lg);
+      z-index: 999;
+    }
+
+    @media (max-width: 768px) {
+      .text-styles-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <h1>转转的设计系统预览 v1.0.4</h1>
+
+  <!-- 主 Tab 切换 -->
+  <div class="main-tabs">
+    <button class="main-tab active" onclick="switchMainTab('styles')">Styles 样式</button>
+    <button class="main-tab" onclick="switchMainTab('variables')">Variables 变量</button>
+    <button class="main-tab" onclick="switchMainTab('components')">Components 组件</button>
+  </div>
+
+  <!-- ==================== Styles Tab ==================== -->
+  <div id="tab-styles" class="tab-content active">
+
+    <!-- Text Styles -->
+    <div class="section">
+      <h2>文字样式 Text Styles</h2>
+      <p style="color: var(--text-3); margin-bottom: var(--spacing-4); font-size: 13px;">
+        Styles 是固定的组合定义，引用 Variables 实现跨平台适配
+      </p>
+      <div class="text-styles-grid">
+        <!-- 标题 -->
+        <div class="text-style-group">
+          <h3>标题 Headings</h3>
+          <div class="text-style-item">
+            <span class="text-style-label">h0</span>
+            <span class="style-h0">Display</span>
+            <span class="text-style-meta">{font-size/h0} + 600</span>
+          </div>
+          <div class="text-style-item">
+            <span class="text-style-label">h1</span>
+            <span class="style-h1">标题一</span>
+            <span class="text-style-meta">{font-size/h1} + 600</span>
+          </div>
+          <div class="text-style-item">
+            <span class="text-style-label">h2</span>
+            <span class="style-h2">标题二</span>
+            <span class="text-style-meta">{font-size/h2} + 600</span>
+          </div>
+          <div class="text-style-item">
+            <span class="text-style-label">h3</span>
+            <span class="style-h3">标题三</span>
+            <span class="text-style-meta">{font-size/h3} + 600</span>
+          </div>
+          <div class="text-style-item">
+            <span class="text-style-label">h4</span>
+            <span class="style-h4">标题四</span>
+            <span class="text-style-meta">{font-size/h4} + 600</span>
+          </div>
+          <div class="text-style-item">
+            <span class="text-style-label">h5</span>
+            <span class="style-h5">标题五</span>
+            <span class="text-style-meta">{font-size/h5} + 600</span>
+          </div>
+          <div class="text-style-item">
+            <span class="text-style-label">h6</span>
+            <span class="style-h6">标题六</span>
+            <span class="text-style-meta">{font-size/h6} + 600</span>
+          </div>
+        </div>
+
+        <!-- 内容 -->
+        <div class="text-style-group">
+          <h3>内容 Body</h3>
+          <div class="text-style-item">
+            <span class="text-style-label">lead</span>
+            <span class="style-lead">引导文字</span>
+            <span class="text-style-meta">{font-size/lead} + 500</span>
+          </div>
+          <div class="text-style-item">
+            <span class="text-style-label">p</span>
+            <span class="style-p">正文内容</span>
+            <span class="text-style-meta">{font-size/p} + 400</span>
+          </div>
+          <div class="text-style-item">
+            <span class="text-style-label">subtle</span>
+            <span class="style-subtle">次要文字</span>
+            <span class="text-style-meta">{font-size/subtle} + 400</span>
+          </div>
+          <div class="text-style-item">
+            <span class="text-style-label">small</span>
+            <span class="style-small">小号文字</span>
+            <span class="text-style-meta">{font-size/small} + 400</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 阴影 -->
+    <div class="section">
+      <h2>阴影样式 Shadow Styles</h2>
+      <div class="shadow-demo">
+        <div class="shadow-item">
+          <div class="shadow-box" style="box-shadow: var(--shadow-sm);"></div>
+          <div class="color-label">shadow-sm</div>
+        </div>
+        <div class="shadow-item">
+          <div class="shadow-box" style="box-shadow: var(--shadow-md);"></div>
+          <div class="color-label">shadow-md</div>
+        </div>
+        <div class="shadow-item">
+          <div class="shadow-box" style="box-shadow: var(--shadow-lg);"></div>
+          <div class="color-label">shadow-lg</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== Variables Tab ==================== -->
+  <div id="tab-variables" class="tab-content">
+
+    <!-- Typography Variables -->
+    <div class="section">
+      <h2>字号变量 Font Size Variables</h2>
+      <p style="color: var(--text-3); margin-bottom: var(--spacing-4); font-size: 13px;">
+        Variables 在不同平台（Mode）下有不同的值，黄色高亮表示与 PC 不同
+      </p>
+      <table class="var-table">
+        <thead>
+          <tr>
+            <th style="width: 25%">Variable 名称</th>
+            <th style="width: 20%">PC (1440+)</th>
+            <th style="width: 20%">Pad (1040-1439)</th>
+            <th style="width: 20%">Phone (&lt;375)</th>
+            <th style="width: 15%">说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="var-name">font-size/h0</td>
+            <td class="var-value">56px</td>
+            <td class="var-value"><span class="platform-diff">48px</span></td>
+            <td class="var-value"><span class="platform-diff">36px</span></td>
+            <td class="var-desc">Display</td>
+          </tr>
+          <tr>
+            <td class="var-name">font-size/h1</td>
+            <td class="var-value">44px</td>
+            <td class="var-value"><span class="platform-diff">36px</span></td>
+            <td class="var-value"><span class="platform-diff">28px</span></td>
+            <td class="var-desc">页面标题</td>
+          </tr>
+          <tr>
+            <td class="var-name">font-size/h2</td>
+            <td class="var-value">36px</td>
+            <td class="var-value"><span class="platform-diff">28px</span></td>
+            <td class="var-value"><span class="platform-diff">24px</span></td>
+            <td class="var-desc">模块标题</td>
+          </tr>
+          <tr>
+            <td class="var-name">font-size/h3</td>
+            <td class="var-value">28px</td>
+            <td class="var-value"><span class="platform-diff">24px</span></td>
+            <td class="var-value"><span class="platform-diff">20px</span></td>
+            <td class="var-desc">区域标题</td>
+          </tr>
+          <tr>
+            <td class="var-name">font-size/h4</td>
+            <td class="var-value">24px</td>
+            <td class="var-value"><span class="platform-diff">20px</span></td>
+            <td class="var-value"><span class="platform-diff">18px</span></td>
+            <td class="var-desc">卡片标题</td>
+          </tr>
+          <tr>
+            <td class="var-name">font-size/h5</td>
+            <td class="var-value">20px</td>
+            <td class="var-value"><span class="platform-diff">18px</span></td>
+            <td class="var-value"><span class="platform-diff">16px</span></td>
+            <td class="var-desc">小标题</td>
+          </tr>
+          <tr>
+            <td class="var-name">font-size/h6</td>
+            <td class="var-value">18px</td>
+            <td class="var-value"><span class="platform-diff">16px</span></td>
+            <td class="var-value"><span class="platform-diff">16px</span></td>
+            <td class="var-desc">最小标题</td>
+          </tr>
+          <tr>
+            <td class="var-name">font-size/p</td>
+            <td class="var-value">16px</td>
+            <td class="var-value">16px</td>
+            <td class="var-value"><span class="platform-diff">14px</span></td>
+            <td class="var-desc">正文</td>
+          </tr>
+          <tr>
+            <td class="var-name">font-size/subtle</td>
+            <td class="var-value">14px</td>
+            <td class="var-value">14px</td>
+            <td class="var-value">14px</td>
+            <td class="var-desc">次要文字</td>
+          </tr>
+          <tr>
+            <td class="var-name">font-size/small</td>
+            <td class="var-value">12px</td>
+            <td class="var-value">12px</td>
+            <td class="var-value">12px</td>
+            <td class="var-desc">小号文字</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Color Variables -->
+    <div class="section">
+      <h2>颜色变量 Color Variables</h2>
+
+      <div class="var-section">
+        <h3>品牌色 Brand</h3>
+        <div class="color-grid">
+          <div class="color-item">
+            <div class="color-box" style="background: #1161fe;"></div>
+            <div class="color-label">brand-0</div>
+            <div class="color-value">#1161fe</div>
+            <div class="color-desc">常规</div>
+          </div>
+          <div class="color-item">
+            <div class="color-box" style="background: #0e58ea;"></div>
+            <div class="color-label">brand-1</div>
+            <div class="color-value">#0e58ea</div>
+            <div class="color-desc">点击</div>
+          </div>
+          <div class="color-item">
+            <div class="color-box" style="background: #4080ff;"></div>
+            <div class="color-label">brand-2</div>
+            <div class="color-value">#4080ff</div>
+            <div class="color-desc">悬浮</div>
+          </div>
+          <div class="color-item">
+            <div class="color-box" style="background: #bed4ff;"></div>
+            <div class="color-label">brand-3</div>
+            <div class="color-value">#bed4ff</div>
+            <div class="color-desc">禁用</div>
+          </div>
+          <div class="color-item">
+            <div class="color-box" style="background: #e6edfa;"></div>
+            <div class="color-label">brand-4</div>
+            <div class="color-value">#e6edfa</div>
+            <div class="color-desc">选中背景</div>
+          </div>
+          <div class="color-item">
+            <div class="color-box" style="background: #f4f7ff;"></div>
+            <div class="color-label">brand-5</div>
+            <div class="color-value">#f4f7ff</div>
+            <div class="color-desc">提示背景</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="var-section">
+        <h3>文字色 Text</h3>
+        <div class="color-grid">
+          <div class="color-item">
+            <div class="color-box" style="background: #181818;"></div>
+            <div class="color-label">text-1</div>
+            <div class="color-value">#181818</div>
+            <div class="color-desc">强调/正文</div>
+          </div>
+          <div class="color-item">
+            <div class="color-box" style="background: #616161;"></div>
+            <div class="color-label">text-2</div>
+            <div class="color-value">#616161</div>
+            <div class="color-desc">次强调</div>
+          </div>
+          <div class="color-item">
+            <div class="color-box" style="background: #9e9e9e;"></div>
+            <div class="color-label">text-3</div>
+            <div class="color-value">#9e9e9e</div>
+            <div class="color-desc">次要/禁用</div>
+          </div>
+          <div class="color-item">
+            <div class="color-box" style="background: #d3d4d5;"></div>
+            <div class="color-label">text-4</div>
+            <div class="color-value">#d3d4d5</div>
+            <div class="color-desc">置灰</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="var-section">
+        <h3>语义色 Semantic</h3>
+        <div class="color-grid">
+          <div class="color-item">
+            <div class="color-box" style="background: #00b42a;"></div>
+            <div class="color-label">success</div>
+            <div class="color-value">#00b42a</div>
+          </div>
+          <div class="color-item">
+            <div class="color-box" style="background: #ff7d00;"></div>
+            <div class="color-label">warning</div>
+            <div class="color-value">#ff7d00</div>
+          </div>
+          <div class="color-item">
+            <div class="color-box" style="background: #f53f3f;"></div>
+            <div class="color-label">danger</div>
+            <div class="color-value">#f53f3f</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spacing Variables -->
+    <div class="section">
+      <h2>间距变量 Spacing Variables</h2>
+      <div class="spacing-item">
+        <div class="spacing-label">spacing-1</div>
+        <div style="display: flex; align-items: center;">
+          <div class="spacing-block"></div>
+          <div class="spacing-gap" style="width: 4px;"><div class="spacing-line"></div></div>
+          <div class="spacing-block"></div>
+        </div>
+        <span class="spacing-value" style="margin-left: 8px;">4px</span>
+      </div>
+      <div class="spacing-item">
+        <div class="spacing-label">spacing-2</div>
+        <div style="display: flex; align-items: center;">
+          <div class="spacing-block"></div>
+          <div class="spacing-gap" style="width: 8px;"><div class="spacing-line"></div></div>
+          <div class="spacing-block"></div>
+        </div>
+        <span class="spacing-value" style="margin-left: 8px;">8px</span>
+      </div>
+      <div class="spacing-item">
+        <div class="spacing-label">spacing-3</div>
+        <div style="display: flex; align-items: center;">
+          <div class="spacing-block"></div>
+          <div class="spacing-gap" style="width: 12px;"><div class="spacing-line"></div></div>
+          <div class="spacing-block"></div>
+        </div>
+        <span class="spacing-value" style="margin-left: 8px;">12px</span>
+      </div>
+      <div class="spacing-item">
+        <div class="spacing-label">spacing-4</div>
+        <div style="display: flex; align-items: center;">
+          <div class="spacing-block"></div>
+          <div class="spacing-gap" style="width: 16px;"><div class="spacing-line"></div></div>
+          <div class="spacing-block"></div>
+        </div>
+        <span class="spacing-value" style="margin-left: 8px;">16px</span>
+      </div>
+      <div class="spacing-item">
+        <div class="spacing-label">spacing-6</div>
+        <div style="display: flex; align-items: center;">
+          <div class="spacing-block"></div>
+          <div class="spacing-gap" style="width: 24px;"><div class="spacing-line"></div></div>
+          <div class="spacing-block"></div>
+        </div>
+        <span class="spacing-value" style="margin-left: 8px;">24px</span>
+      </div>
+    </div>
+
+    <!-- Radius Variables -->
+    <div class="section">
+      <h2>圆角变量 Radius Variables</h2>
+      <div class="radius-demo">
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius: 2px;"></div>
+          <div class="color-label">xs / 2px</div>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius: 4px;"></div>
+          <div class="color-label">sm / 4px</div>
+          <div class="color-desc">按钮</div>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius: 6px;"></div>
+          <div class="color-label">md / 6px</div>
+          <div class="color-desc">表单</div>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius: 8px;"></div>
+          <div class="color-label">lg / 8px</div>
+          <div class="color-desc">弹窗</div>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius: 12px;"></div>
+          <div class="color-label">xl / 12px</div>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius: 999px;"></div>
+          <div class="color-label">full</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== Components Tab ==================== -->
+  <div id="tab-components" class="tab-content">
+    <div class="section">
+      <h2>按钮 Buttons</h2>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <button style="padding: 8px 16px; background: var(--brand-0); color: white; border: none; border-radius: 4px; font-size: 14px; font-weight: 500; cursor: pointer;">主要按钮</button>
+        <button style="padding: 8px 16px; background: var(--fill-3); color: var(--text-1); border: none; border-radius: 4px; font-size: 14px; font-weight: 500; cursor: pointer;">次要按钮</button>
+        <button style="padding: 8px 16px; background: var(--danger-1); color: white; border: none; border-radius: 4px; font-size: 14px; font-weight: 500; cursor: pointer;">危险按钮</button>
+        <button style="padding: 8px 16px; background: transparent; color: var(--brand-0); border: 1px solid var(--brand-0); border-radius: 4px; font-size: 14px; font-weight: 500; cursor: pointer;">描边按钮</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>提示框 Alerts</h2>
+      <div style="padding: 12px 16px; background: var(--brand-5); color: var(--brand-1); border-radius: 6px; margin-bottom: 12px;">这是一条信息提示</div>
+      <div style="padding: 12px 16px; background: var(--success-4); color: #009a29; border-radius: 6px; margin-bottom: 12px;">操作成功！</div>
+      <div style="padding: 12px 16px; background: var(--warning-4); color: #d25f00; border-radius: 6px; margin-bottom: 12px;">请注意检查</div>
+      <div style="padding: 12px 16px; background: var(--danger-4); color: #cb272d; border-radius: 6px;">出错了，请重试</div>
+    </div>
+
+    <div class="section">
+      <h2>表单 Form</h2>
+      <input type="text" placeholder="请输入内容..." style="width: 300px; padding: 8px 12px; border: 1px solid var(--border-2); border-radius: 6px; font-size: 14px; margin-bottom: 12px;">
+      <br>
+      <div style="display: flex; gap: 12px;">
+        <button style="padding: 8px 16px; background: var(--brand-0); color: white; border: none; border-radius: 4px; font-size: 14px; font-weight: 500; cursor: pointer;">提交</button>
+        <button style="padding: 8px 16px; background: var(--fill-3); color: var(--text-1); border: none; border-radius: 4px; font-size: 14px; font-weight: 500; cursor: pointer;">取消</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主题切换浮窗 -->
+  <div class="theme-panel" id="themePanel">
+    <button class="theme-panel-close" onclick="togglePanel(false)">✕</button>
+    <div class="theme-panel-title">主题切换</div>
+    <div class="theme-options">
+      <button class="theme-btn active" id="lightBtn" onclick="setTheme('light')">☀️ Light</button>
+      <button class="theme-btn" id="darkBtn" onclick="setTheme('dark')">🌙 Dark</button>
+    </div>
+  </div>
+
+  <button class="theme-panel-toggle" id="panelToggle" onclick="togglePanel(true)">🎨</button>
+
+  <script>
+    // Tab 切换
+    function switchMainTab(tabName) {
+      // 隐藏所有 tab 内容
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      // 取消所有 tab 按钮的 active
+      document.querySelectorAll('.main-tab').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      // 显示选中的 tab
+      document.getElementById('tab-' + tabName).classList.add('active');
+      // 激活对应的按钮
+      event.target.classList.add('active');
+    }
+
+    // 主题切换
+    function setTheme(theme) {
+      const html = document.documentElement;
+      const lightBtn = document.getElementById('lightBtn');
+      const darkBtn = document.getElementById('darkBtn');
+
+      if (theme === 'dark') {
+        html.classList.add('dark');
+        darkBtn.classList.add('active');
+        lightBtn.classList.remove('active');
+      } else {
+        html.classList.remove('dark');
+        lightBtn.classList.add('active');
+        darkBtn.classList.remove('active');
+      }
+      localStorage.setItem('theme', theme);
+    }
+
+    function togglePanel(show) {
+      const panel = document.getElementById('themePanel');
+      const toggle = document.getElementById('panelToggle');
+      panel.style.display = show ? 'block' : 'none';
+      toggle.style.display = show ? 'none' : 'flex';
+    }
+
+    // 加载保存的主题
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) setTheme(savedTheme);
+    })();
+  </script>
+</body>
+</html>

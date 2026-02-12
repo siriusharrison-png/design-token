@@ -1,0 +1,31 @@
+{
+  "name": "design-token",
+  "version": "1.0.0",
+  "description": "Design tokens from Figma - CSS variables and utility classes for building consistent UIs",
+  "main": "dist/design-tokens.css",
+  "style": "dist/design-tokens.css",
+  "files": [
+    "dist",
+    "src",
+    "tailwind.config.js"
+  ],
+  "keywords": [
+    "design-tokens",
+    "css",
+    "css-variables",
+    "figma",
+    "design-system",
+    "utility-classes",
+    "tailwind"
+  ],
+  "homepage": "https://github.com/siriusharrison/design-token",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/siriusharrison/design-token.git"
+  },
+  "bugs": {
+    "url": "https://github.com/siriusharrison/design-token/issues"
+  },
+  "author": "siriusharrison",
+  "license": "MIT"
+}
