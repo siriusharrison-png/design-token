@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Console - Novita AI</title>
+  <!-- 引入设计系统 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/siriusharrison-png/design-token@main/dist/design-tokens.css">
+  <style>
+    /* 重置样式 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--fill-4);
+      color: var(--text-1);
+      font-size: var(--font-size-14);
+      line-height: 1.5;
+    }
+
+    /* 布局 */
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ========== 侧边栏 ========== */
+    .sidebar {
+      width: 240px;
+      background-color: var(--fill-5);
+      border-right: 1px solid var(--border-3);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      height: 100vh;
+      left: 0;
+      top: 0;
+      z-index: 100;
+    }
+
+    .sidebar-header {
+      padding: var(--space-16);
+      border-bottom: 1px solid var(--border-3);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      font-size: var(--font-size-18);
+      font-weight: var(--font-weight-600-semibold);
+      color: var(--text-1);
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--brand-primary-1);
+      border-radius: var(--radius-6-regular);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: var(--font-size-14);
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: var(--space-12) 0;
+      overflow-y: auto;
+    }
+
+    .nav-section {
+      margin-bottom: var(--space-8);
+    }
+
+    .nav-section-title {
+      padding: var(--space-8) var(--space-16);
+      font-size: var(--font-size-12);
+      color: var(--text-3);
+      font-weight: var(--font-weight-500-medium);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-item {
+      display: block;
+      padding: var(--space-8) var(--space-16);
+      color: var(--text-2);
+      text-decoration: none;
+      font-size: var(--font-size-14);
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .nav-item:hover {
+      background-color: var(--fill-4);
+      color: var(--text-1);
+    }
+
+    .nav-item.active {
+      background-color: var(--brand-primary-5);
+      color: var(--brand-primary-1);
+      font-weight: var(--font-weight-500-medium);
+    }
+
+
+    .sidebar-footer {
+      padding: var(--space-16);
+      border-top: 1px solid var(--border-3);
+    }
+
+    .sidebar-footer a {
+      display: block;
+      padding: var(--space-8) 0;
+      color: var(--text-2);
+      text-decoration: none;
+      font-size: var(--font-size-14);
+    }
+
+    .sidebar-footer a:hover {
+      color: var(--brand-primary-1);
+    }
+
+    /* ========== 主内容区 ========== */
+    .main {
+      flex: 1;
+      margin-left: 240px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 顶部栏 */
+    .topbar {
+      background-color: var(--fill-5);
+      border-bottom: 1px solid var(--border-3);
+      padding: var(--space-12) var(--space-24);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: var(--space-16);
+    }
+
+    .topbar-title {
+      font-size: var(--font-size-18);
+      font-weight: var(--font-weight-600-semibold);
+      color: var(--text-1);
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: var(--space-16);
+    }
+
+    .credits-badge {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-4) var(--space-8);
+      background-color: var(--fill-4);
+      border-radius: var(--radius-4-small);
+      font-size: var(--font-size-12);
+      color: var(--text-2);
+    }
+
+    .credits-badge .amount {
+      color: var(--text-1);
+      font-weight: var(--font-weight-500-medium);
+    }
+
+    .team-switcher {
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      padding: var(--space-4) var(--space-8);
+      border: 1px solid var(--border-3);
+      border-radius: var(--radius-4-small);
+      background-color: var(--fill-5);
+      cursor: pointer;
+      font-size: var(--font-size-14);
+      color: var(--text-2);
+    }
+
+    .team-switcher:hover {
+      border-color: var(--brand-primary-1);
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-999-round);
+      background-color: var(--brand-primary-1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: var(--font-size-12);
+      font-weight: var(--font-weight-500-medium);
+    }
+
+    .notification-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-4-small);
+      border: 1px solid var(--border-3);
+      background-color: var(--fill-5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-2);
+    }
+
+    .notification-btn:hover {
+      border-color: var(--brand-primary-1);
+      color: var(--brand-primary-1);
+    }
+
+    /* 内容区 */
+    .content {
+      padding: var(--space-24);
+      flex: 1;
+    }
+
+    /* ========== Section 标题 ========== */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-16);
+    }
+
+    .section-title {
+      font-size: var(--font-size-16);
+      font-weight: var(--font-weight-600-semibold);
+      color: var(--text-1);
+    }
+
+    .section-link {
+      font-size: var(--font-size-14);
+      color: var(--brand-primary-1);
+      text-decoration: none;
+    }
+
+    .section-link:hover {
+      text-decoration: underline;
+    }
+
+    /* ========== 产品卡片网格 ========== */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-16);
+      margin-bottom: var(--space-24);
+    }
+
+    @media (max-width: 1200px) {
+      .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ========== 产品卡片 ========== */
+    .product-card {
+      background-color: var(--fill-5);
+      border: 1px solid var(--border-3);
+      border-radius: var(--radius-6-regular);
+      padding: var(--space-16);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .product-card:hover {
+      border-color: var(--brand-primary-1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .product-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-12);
+      margin-bottom: var(--space-12);
+    }
+
+    .product-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-6-regular);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .product-icon.blue {
+      background-color: var(--brand-primary-5);
+      color: var(--brand-primary-1);
+    }
+
+    .product-icon.green {
+      background-color: var(--success-4);
+      color: var(--success-0);
+    }
+
+    .product-icon.orange {
+      background-color: var(--warning-4);
+      color: var(--warning-0);
+    }
+
+    .product-icon.purple {
+      background-color: #f3e8ff;
+      color: #9333ea;
+    }
+
+    .product-card-title {
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-500-medium);
+      color: var(--text-1);
+      margin-bottom: var(--space-4);
+    }
+
+    .product-card-desc {
+      font-size: var(--font-size-12);
+      color: var(--text-3);
+      line-height: 1.5;
+    }
+
+    .product-tag {
+      display: inline-flex;
+      align-items: center;
+      height: var(--height-20-supersmall);
+      padding: 0 var(--space-8);
+      background-color: var(--success-4);
+      color: var(--success-0);
+      border-radius: var(--radius-2-minismall);
+      font-size: var(--font-size-12);
+      margin-top: var(--space-8);
+    }
+
+    /* ========== 横幅 Banner ========== */
+    .banner {
+      background: linear-gradient(135deg, var(--brand-primary-1) 0%, var(--brand-primary-2) 100%);
+      border-radius: var(--radius-8-medium);
+      padding: var(--space-24);
+      margin-bottom: var(--space-24);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .banner-content h3 {
+      font-size: var(--font-size-18);
+      font-weight: var(--font-weight-600-semibold);
+      margin-bottom: var(--space-8);
+    }
+
+    .banner-content p {
+      font-size: var(--font-size-14);
+      opacity: 0.9;
+    }
+
+    .banner-btn {
+      height: var(--height-36-large);
+      padding: 0 var(--space-24);
+      background-color: white;
+      color: var(--brand-primary-1);
+      border: none;
+      border-radius: var(--radius-4-small);
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-500-medium);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .banner-btn:hover {
+      background-color: var(--fill-4);
+    }
+
+    /* ========== 账户概览 ========== */
+    .account-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-16);
+      margin-bottom: var(--space-24);
+    }
+
+    @media (max-width: 1200px) {
+      .account-summary {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .account-summary {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .summary-card {
+      background-color: var(--fill-5);
+      border: 1px solid var(--border-3);
+      border-radius: var(--radius-6-regular);
+      padding: var(--space-16);
+    }
+
+    .summary-card-title {
+      font-size: var(--font-size-12);
+      color: var(--text-3);
+      margin-bottom: var(--space-8);
+    }
+
+    .summary-card-value {
+      font-size: var(--font-size-24);
+      font-weight: var(--font-weight-600-semibold);
+      color: var(--text-1);
+    }
+
+    .summary-card-value.primary {
+      color: var(--brand-primary-1);
+    }
+
+    .summary-card-sub {
+      font-size: var(--font-size-12);
+      color: var(--text-3);
+      margin-top: var(--space-4);
+    }
+
+    /* ========== 图表占位 ========== */
+    .chart-placeholder {
+      height: 120px;
+      background-color: var(--fill-4);
+      border-radius: var(--radius-4-small);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-3);
+      font-size: var(--font-size-12);
+      margin-top: var(--space-12);
+    }
+
+    /* ========== 双列布局 ========== */
+    .two-column {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-24);
+      margin-bottom: var(--space-24);
+    }
+
+    @media (max-width: 1024px) {
+      .two-column {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .column-section {
+      background-color: var(--fill-5);
+      border: 1px solid var(--border-3);
+      border-radius: var(--radius-6-regular);
+      padding: var(--space-16);
+    }
+
+    .column-title {
+      font-size: var(--font-size-16);
+      font-weight: var(--font-weight-600-semibold);
+      color: var(--text-1);
+      margin-bottom: var(--space-16);
+      padding-bottom: var(--space-12);
+      border-bottom: 1px solid var(--border-4);
+    }
+
+    /* ========== API 卡片列表 ========== */
+    .api-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-12);
+    }
+
+    .api-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-12);
+      padding: var(--space-12);
+      border: 1px solid var(--border-4);
+      border-radius: var(--radius-4-small);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .api-item:hover {
+      border-color: var(--brand-primary-1);
+      background-color: var(--fill-4);
+    }
+
+    .api-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-4-small);
+      background-color: var(--brand-primary-5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .api-icon svg {
+      width: 20px;
+      height: 20px;
+      color: var(--brand-primary-1);
+    }
+
+    .api-info {
+      flex: 1;
+    }
+
+    .api-name {
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-500-medium);
+      color: var(--text-1);
+    }
+
+    .api-desc {
+      font-size: var(--font-size-12);
+      color: var(--text-3);
+    }
+
+    .api-arrow {
+      color: var(--text-3);
+    }
+
+    /* ========== GPU 卡片 ========== */
+    .gpu-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-12);
+    }
+
+    .gpu-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-12);
+      border: 1px solid var(--border-4);
+      border-radius: var(--radius-4-small);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .gpu-item:hover {
+      border-color: var(--brand-primary-1);
+      background-color: var(--fill-4);
+    }
+
+    .gpu-info {
+      display: flex;
+      align-items: center;
+      gap: var(--space-12);
+    }
+
+    .gpu-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-4-small);
+      background-color: var(--success-4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gpu-icon svg {
+      width: 20px;
+      height: 20px;
+      color: var(--success-0);
+    }
+
+    .gpu-name {
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-500-medium);
+      color: var(--text-1);
+    }
+
+    .gpu-spec {
+      font-size: var(--font-size-12);
+      color: var(--text-3);
+    }
+
+    .gpu-price {
+      text-align: right;
+    }
+
+    .gpu-price-value {
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-500-medium);
+      color: var(--brand-primary-1);
+    }
+
+    .gpu-price-unit {
+      font-size: var(--font-size-12);
+      color: var(--text-3);
+    }
+
+    .gpu-status {
+      display: inline-flex;
+      align-items: center;
+      height: var(--height-20-supersmall);
+      padding: 0 var(--space-8);
+      border-radius: var(--radius-2-minismall);
+      font-size: var(--font-size-12);
+    }
+
+    .gpu-status.available {
+      background-color: var(--success-4);
+      color: var(--success-0);
+    }
+
+    .gpu-status.limited {
+      background-color: var(--warning-4);
+      color: var(--warning-0);
+    }
+
+    /* ========== 文档链接 ========== */
+    .docs-section {
+      margin-bottom: var(--space-24);
+    }
+
+    .docs-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-12);
+    }
+
+    @media (max-width: 1024px) {
+      .docs-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .docs-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .doc-link {
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      padding: var(--space-12);
+      background-color: var(--fill-5);
+      border: 1px solid var(--border-3);
+      border-radius: var(--radius-4-small);
+      text-decoration: none;
+      color: var(--text-2);
+      font-size: var(--font-size-14);
+      transition: all 0.2s;
+    }
+
+    .doc-link:hover {
+      border-color: var(--brand-primary-1);
+      color: var(--brand-primary-1);
+    }
+
+    .doc-link svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    /* ========== 响应式侧边栏 ========== */
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+      .main {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="layout">
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="logo">
+          <span class="logo-icon">N</span>
+          <span>Novita AI</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <a href="#" class="nav-item active">Home</a>
+          <a href="#" class="nav-item">Model APIs</a>
+          <a href="#" class="nav-item">GPUs</a>
+          <a href="#" class="nav-item">Agent Sandbox</a>
+          <a href="#" class="nav-item">Pricing</a>
+          <a href="#" class="nav-item">Billing</a>
+          <a href="#" class="nav-item">Quotas & Limits</a>
+          <a href="#" class="nav-item">Account Settings</a>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="#" style="display: flex; align-items: center; gap: 8px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+          Docs
+        </a>
+      </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main">
+      <!-- 顶部栏 -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <span class="topbar-title">Home</span>
+        </div>
+        <div class="topbar-right">
+          <div class="credits-badge">
+            <span>Credits:</span>
+            <span class="amount">$0.0000</span>
+          </div>
+          <div class="team-switcher">
+            <span class="avatar">S</span>
+            <span>siriusharrison</span>
+            <span>/</span>
+            <span>Personal</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+          <button class="notification-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+          </button>
+          <div class="avatar">S</div>
+        </div>
+      </header>
+
+      <!-- 内容区 -->
+      <div class="content">
+
+        <!-- Explore Products -->
+        <section>
+          <div class="section-header">
+            <h2 class="section-title">Explore Products</h2>
+            <a href="#" class="section-link">View all</a>
+          </div>
+          <div class="card-grid">
+            <div class="product-card">
+              <div class="product-card-header">
+                <div class="product-icon blue">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                    <line x1="8" y1="21" x2="16" y2="21"/>
+                    <line x1="12" y1="17" x2="12" y2="21"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="product-card-title">Model APIs</h3>
+                  <p class="product-card-desc">Access 100+ state-of-the-art AI models via API</p>
+                </div>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-card-header">
+                <div class="product-icon green">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="4" y="4" width="16" height="16" rx="2" ry="2"/>
+                    <rect x="9" y="9" width="6" height="6"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="product-card-title">GPU Cloud</h3>
+                  <p class="product-card-desc">Rent high-performance GPUs for AI training</p>
+                </div>
+              </div>
+              <span class="product-tag">Best Value</span>
+            </div>
+            <div class="product-card">
+              <div class="product-card-header">
+                <div class="product-icon purple">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="product-card-title">Agent Sandbox</h3>
+                  <p class="product-card-desc">Build and deploy AI agents with ease</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Featured for You -->
+        <section>
+          <div class="section-header">
+            <h2 class="section-title">Featured for You</h2>
+          </div>
+          <div class="card-grid">
+            <div class="product-card">
+              <div class="product-card-header">
+                <div class="product-icon blue">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                    <polyline points="2 17 12 22 22 17"/>
+                    <polyline points="2 12 12 17 22 12"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="product-card-title">Flux Image Generation</h3>
+                  <p class="product-card-desc">Generate stunning images with Flux models</p>
+                </div>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-card-header">
+                <div class="product-icon orange">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="product-card-title">LLM Chat API</h3>
+                  <p class="product-card-desc">Build conversational AI applications</p>
+                </div>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-card-header">
+                <div class="product-icon green">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                    <line x1="12" y1="19" x2="12" y2="23"/>
+                    <line x1="8" y1="23" x2="16" y2="23"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="product-card-title">Voice & Audio</h3>
+                  <p class="product-card-desc">Speech-to-text and text-to-speech APIs</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Banner -->
+        <section class="banner">
+          <div class="banner-content">
+            <h3>AI Hackathon 2026</h3>
+            <p>Join our global hackathon and win up to $50,000 in prizes!</p>
+          </div>
+          <button class="banner-btn">Learn More</button>
+        </section>
+
+        <!-- Account Summary -->
+        <section>
+          <div class="section-header">
+            <h2 class="section-title">Account Summary</h2>
+          </div>
+          <div class="account-summary">
+            <div class="summary-card">
+              <div class="summary-card-title">Credit Balance</div>
+              <div class="summary-card-value primary">$0.00</div>
+              <div class="summary-card-sub">
+                <a href="#" style="color: var(--brand-primary-1); text-decoration: none;">Add credit</a>
+              </div>
+            </div>
+            <div class="summary-card">
+              <div class="summary-card-title">API Keys</div>
+              <div class="summary-card-value">0</div>
+              <div class="summary-card-sub">
+                <a href="#" style="color: var(--brand-primary-1); text-decoration: none;">Create API Key</a>
+              </div>
+            </div>
+            <div class="summary-card">
+              <div class="summary-card-title">Monthly Spend</div>
+              <div class="summary-card-value">$0.00</div>
+              <div class="chart-placeholder">Chart will appear here</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Explore & Launch -->
+        <section class="two-column">
+          <div class="column-section">
+            <h3 class="column-title">Model APIs</h3>
+            <div class="api-list">
+              <div class="api-item">
+                <div class="api-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                  </svg>
+                </div>
+                <div class="api-info">
+                  <div class="api-name">Image Generation</div>
+                  <div class="api-desc">Flux, SDXL, Stable Diffusion</div>
+                </div>
+                <span class="api-arrow">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"/>
+                  </svg>
+                </span>
+              </div>
+              <div class="api-item">
+                <div class="api-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
+                </div>
+                <div class="api-info">
+                  <div class="api-name">LLM Chat</div>
+                  <div class="api-desc">GPT, Claude, Llama, Mistral</div>
+                </div>
+                <span class="api-arrow">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"/>
+                  </svg>
+                </span>
+              </div>
+              <div class="api-item">
+                <div class="api-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="23 7 16 12 23 17 23 7"/>
+                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                  </svg>
+                </div>
+                <div class="api-info">
+                  <div class="api-name">Video Generation</div>
+                  <div class="api-desc">Create AI-powered videos</div>
+                </div>
+                <span class="api-arrow">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="column-section">
+            <h3 class="column-title">GPUs</h3>
+            <div class="gpu-list">
+              <div class="gpu-item">
+                <div class="gpu-info">
+                  <div class="gpu-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="4" y="4" width="16" height="16" rx="2" ry="2"/>
+                      <rect x="9" y="9" width="6" height="6"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="gpu-name">NVIDIA A100</div>
+                    <div class="gpu-spec">80GB HBM2e</div>
+                  </div>
+                </div>
+                <div class="gpu-price">
+                  <div class="gpu-price-value">$2.50</div>
+                  <div class="gpu-price-unit">/hour</div>
+                </div>
+                <span class="gpu-status available">Available</span>
+              </div>
+              <div class="gpu-item">
+                <div class="gpu-info">
+                  <div class="gpu-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="4" y="4" width="16" height="16" rx="2" ry="2"/>
+                      <rect x="9" y="9" width="6" height="6"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="gpu-name">NVIDIA H100</div>
+                    <div class="gpu-spec">80GB HBM3</div>
+                  </div>
+                </div>
+                <div class="gpu-price">
+                  <div class="gpu-price-value">$4.00</div>
+                  <div class="gpu-price-unit">/hour</div>
+                </div>
+                <span class="gpu-status limited">Limited</span>
+              </div>
+              <div class="gpu-item">
+                <div class="gpu-info">
+                  <div class="gpu-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="4" y="4" width="16" height="16" rx="2" ry="2"/>
+                      <rect x="9" y="9" width="6" height="6"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="gpu-name">NVIDIA RTX 4090</div>
+                    <div class="gpu-spec">24GB GDDR6X</div>
+                  </div>
+                </div>
+                <div class="gpu-price">
+                  <div class="gpu-price-value">$0.80</div>
+                  <div class="gpu-price-unit">/hour</div>
+                </div>
+                <span class="gpu-status available">Available</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Documents -->
+        <section class="docs-section">
+          <div class="section-header">
+            <h2 class="section-title">Documents</h2>
+          </div>
+          <div class="docs-grid">
+            <a href="#" class="doc-link">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+              Getting Started
+            </a>
+            <a href="#" class="doc-link">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+              API Reference
+            </a>
+            <a href="#" class="doc-link">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+              GPU Docs
+            </a>
+            <a href="#" class="doc-link">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+              Tutorials
+            </a>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>

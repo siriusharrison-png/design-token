@@ -178,6 +178,13 @@ Please use the design-token design system to generate the page. Requirements:
    - Do NOT change the information hierarchy of sections
    - Only adjust styles (colors, spacing, radius), NOT DOM structure
    - Keep all existing functional modules and content
+   - Icons: only include icons where the original page has them, do NOT add icons to places without them
+
+8. Do NOT modify text content:
+   - All text, labels, and button copy must match the original page exactly
+   - Do NOT translate, rewrite, simplify, or "improve" any copy
+   - Do NOT add text content that doesn't exist in the original
+   - Do NOT delete or merge existing text content
 ```
 
 > **Important:** Rules 6 and 7 are mandatory. AI must strictly follow these when generating or refactoring pages.
