@@ -165,7 +165,22 @@ Please use the design-token design system to generate the page. Requirements:
    - Secondary button: .btn-secondary
    - Card: .card
    - Tags: .tag-system, .tag-success, .tag-danger
+
+【STRICT RULES - MUST FOLLOW】
+
+6. No arbitrary Emoji usage:
+   - Do NOT add decorative emojis to the page
+   - Only keep emojis if the original design explicitly includes them
+   - Use SVG or icon fonts for icons
+
+7. Preserve structure during refactoring:
+   - Do NOT change the overall page layout structure
+   - Do NOT change the information hierarchy of sections
+   - Only adjust styles (colors, spacing, radius), NOT DOM structure
+   - Keep all existing functional modules and content
 ```
+
+> **Important:** Rules 6 and 7 are mandatory. AI must strictly follow these when generating or refactoring pages.
 
 ## Using with Tailwind CSS
 

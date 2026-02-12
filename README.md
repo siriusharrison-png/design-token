@@ -160,12 +160,27 @@ import 'design-token/dist/design-tokens.css';
    - 标准按钮: .h-32-medium
    - 大按钮: .h-36-large
 
-5. 组合类：
+5. 组件类：
    - 主按钮: .btn-primary
    - 次按钮: .btn-secondary
    - 卡片: .card
    - 标签: .tag-system, .tag-success, .tag-danger
+
+【严格规范 - 必须遵守】
+
+6. 禁止随意使用 Emoji：
+   - 不要在页面中添加装饰性 emoji
+   - 仅在原设计明确包含 emoji 时才保留
+   - 图标请使用 SVG 或图标字体
+
+7. 重构时保持结构不变：
+   - 不要改变页面的整体布局结构
+   - 不要改变板块的信息层级和内容结构
+   - 只调整样式（颜色、间距、圆角等），不改变 DOM 结构
+   - 保留原有的所有功能模块和信息内容
 ```
+
+> **注意：** 第 6、7 条为强制规范，AI 在生成或重构页面时必须严格遵守。
 
 ## 与 Tailwind CSS 配合使用
 

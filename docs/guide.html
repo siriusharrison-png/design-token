@@ -827,7 +827,11 @@
       </div>
 
       <div class="code-block">
-        <code>请使用 design-token 设计系统来生成页面。<br><br>首先在 &lt;head&gt; 中引入样式：<br>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/siriusharrison-png/design-token@main/dist/design-tokens.css"&gt;<br><br>然后遵循以下规范：<br><br>1. 颜色必须使用 CSS 变量：<br>   - 品牌色：var(--brand-primary-1)<br>   - 文字色：var(--text-1), var(--text-2), var(--text-3)<br>   - 边框色：var(--border-3)<br>   - 背景色：var(--fill-4), var(--fill-5)<br><br>2. 间距使用工具类：<br>   - padding: .p-8, .p-16, .px-16, .py-8<br>   - margin: .m-8, .mt-16, .mb-24<br>   - gap: .gap-8, .gap-16<br><br>3. 圆角使用工具类：<br>   - 按钮/输入框: .radius-4-small<br>   - 卡片: .radius-6-regular<br>   - 弹窗: .radius-8-medium<br><br>4. 高度使用工具类：<br>   - 小按钮: .h-28-small<br>   - 标准按钮: .h-32-medium<br>   - 大按钮: .h-36-large<br><br>5. 组件类：<br>   - 主按钮: .btn-primary<br>   - 次按钮: .btn-secondary<br>   - 卡片: .card<br>   - 标签: .tag-system, .tag-success, .tag-danger</code>
+        <code>请使用 design-token 设计系统来生成页面。<br><br>首先在 &lt;head&gt; 中引入样式：<br>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/siriusharrison-png/design-token@main/dist/design-tokens.css"&gt;<br><br>然后遵循以下规范：<br><br>1. 颜色必须使用 CSS 变量：<br>   - 品牌色：var(--brand-primary-1)<br>   - 文字色：var(--text-1), var(--text-2), var(--text-3)<br>   - 边框色：var(--border-3)<br>   - 背景色：var(--fill-4), var(--fill-5)<br><br>2. 间距使用工具类：<br>   - padding: .p-8, .p-16, .px-16, .py-8<br>   - margin: .m-8, .mt-16, .mb-24<br>   - gap: .gap-8, .gap-16<br><br>3. 圆角使用工具类：<br>   - 按钮/输入框: .radius-4-small<br>   - 卡片: .radius-6-regular<br>   - 弹窗: .radius-8-medium<br><br>4. 高度使用工具类：<br>   - 小按钮: .h-28-small<br>   - 标准按钮: .h-32-medium<br>   - 大按钮: .h-36-large<br><br>5. 组件类：<br>   - 主按钮: .btn-primary<br>   - 次按钮: .btn-secondary<br>   - 卡片: .card<br>   - 标签: .tag-system, .tag-success, .tag-danger<br><br><strong>【严格规范 - 必须遵守】</strong><br><br>6. 禁止随意使用 Emoji：<br>   - 不要在页面中添加装饰性 emoji<br>   - 仅在原设计明确包含 emoji 时才保留<br>   - 图标请使用 SVG 或图标字体<br><br>7. 重构时保持结构不变：<br>   - 不要改变页面的整体布局结构<br>   - 不要改变板块的信息层级和内容结构<br>   - 只调整样式（颜色、间距、圆角等），不改变 DOM 结构<br>   - 保留原有的所有功能模块和信息内容</code>
+      </div>
+
+      <div class="alert" style="background-color: var(--red-4); border-left-color: var(--red-1);">
+        <p><strong>严格规范：</strong>以上第 6、7 条为强制规范，AI 在生成或重构页面时必须严格遵守，不得违反。</p>
       </div>
 
       <div class="alert alert-success">
