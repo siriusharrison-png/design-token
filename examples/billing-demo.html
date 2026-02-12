@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Billing - 账单管理</title>
+  <title>Billing - Novita AI</title>
   <!-- 引入设计系统 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/siriusharrison-png/design-token@main/dist/design-tokens.css">
   <style>
@@ -15,14 +15,14 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Segoe UI', Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background-color: var(--fill-4);
       color: var(--text-1);
       font-size: var(--font-size-14);
       line-height: 1.5;
     }
 
-    /* 布局容器 */
+    /* 布局 */
     .layout {
       display: flex;
       min-height: 100vh;
@@ -42,7 +42,7 @@
     }
 
     .sidebar-header {
-      padding: var(--space-16) var(--space-16);
+      padding: var(--space-16);
       border-bottom: 1px solid var(--border-3);
     }
 
@@ -66,6 +66,7 @@
       justify-content: center;
       color: white;
       font-weight: bold;
+      font-size: var(--font-size-14);
     }
 
     .sidebar-nav {
@@ -110,51 +111,33 @@
       font-weight: var(--font-weight-500-medium);
     }
 
-    .nav-item-icon {
-      width: 20px;
-      height: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-    }
-
     .sidebar-footer {
       padding: var(--space-16);
       border-top: 1px solid var(--border-3);
     }
 
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: var(--space-12);
-    }
-
-    .user-avatar {
-      width: 36px;
-      height: 36px;
-      background: var(--fill-3);
-      border-radius: var(--radius-999-round);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-3);
+    .sidebar-footer a {
+      display: block;
+      padding: var(--space-8) 0;
+      color: var(--text-2);
+      text-decoration: none;
       font-size: var(--font-size-14);
     }
 
-    .user-details {
-      flex: 1;
+    .sidebar-footer a:hover {
+      color: var(--brand-primary-1);
     }
 
-    .user-name {
-      font-size: var(--font-size-14);
-      font-weight: var(--font-weight-500-medium);
-      color: var(--text-1);
+    .user-section {
+      margin-top: var(--space-12);
+      padding-top: var(--space-12);
+      border-top: 1px solid var(--border-4);
     }
 
-    .user-email {
+    .user-label {
       font-size: var(--font-size-12);
       color: var(--text-3);
+      margin-bottom: var(--space-4);
     }
 
     /* ========== 主内容区 ========== */
@@ -165,7 +148,7 @@
       flex-direction: column;
     }
 
-    /* 顶部导航 */
+    /* 顶部栏 */
     .topbar {
       background-color: var(--fill-5);
       border-bottom: 1px solid var(--border-3);
@@ -178,26 +161,26 @@
       z-index: 10;
     }
 
-    .breadcrumb {
+    .topbar-left {
       display: flex;
       align-items: center;
-      gap: var(--space-8);
-      font-size: var(--font-size-14);
-      color: var(--text-3);
+      gap: var(--space-16);
     }
 
-    .breadcrumb a {
-      color: var(--text-3);
+    .back-link {
+      color: var(--text-2);
       text-decoration: none;
+      font-size: var(--font-size-14);
     }
 
-    .breadcrumb a:hover {
+    .back-link:hover {
       color: var(--brand-primary-1);
     }
 
-    .breadcrumb-current {
+    .topbar-title {
+      font-size: var(--font-size-16);
+      font-weight: var(--font-weight-600-semibold);
       color: var(--text-1);
-      font-weight: var(--font-weight-500-medium);
     }
 
     .topbar-actions {
@@ -212,78 +195,7 @@
       flex: 1;
     }
 
-    .page-header {
-      margin-bottom: var(--space-24);
-    }
-
-    .page-title {
-      font-size: var(--font-size-24);
-      font-weight: var(--font-weight-600-semibold);
-      color: var(--text-1);
-      margin-bottom: var(--space-4);
-    }
-
-    .page-desc {
-      font-size: var(--font-size-14);
-      color: var(--text-3);
-    }
-
-    /* ========== 统计卡片 ========== */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--space-16);
-      margin-bottom: var(--space-24);
-    }
-
-    .stat-card {
-      background-color: var(--fill-5);
-      border: 1px solid var(--border-3);
-      border-radius: var(--radius-6-regular);
-      padding: var(--space-16);
-    }
-
-    .stat-label {
-      font-size: var(--font-size-14);
-      color: var(--text-3);
-      margin-bottom: var(--space-8);
-    }
-
-    .stat-value {
-      font-size: var(--font-size-28);
-      font-weight: var(--font-weight-600-semibold);
-      color: var(--text-1);
-    }
-
-    .stat-value.highlight {
-      color: var(--brand-primary-1);
-    }
-
-    .stat-value.success {
-      color: var(--success-1);
-    }
-
-    .stat-value.warning {
-      color: var(--warning-1);
-    }
-
-    .stat-change {
-      display: flex;
-      align-items: center;
-      gap: var(--space-4);
-      margin-top: var(--space-8);
-      font-size: var(--font-size-12);
-    }
-
-    .stat-change.up {
-      color: var(--success-1);
-    }
-
-    .stat-change.down {
-      color: var(--red-1);
-    }
-
-    /* ========== 卡片容器 ========== */
+    /* ========== 卡片 ========== */
     .card {
       background-color: var(--fill-5);
       border: 1px solid var(--border-3);
@@ -342,7 +254,7 @@
       background-color: var(--fill-4);
     }
 
-    /* 状态标签 */
+    /* ========== 状态标签 ========== */
     .status {
       display: inline-flex;
       align-items: center;
@@ -368,125 +280,6 @@
       color: var(--red-0);
     }
 
-    /* ========== 余额卡片 ========== */
-    .balance-card {
-      background: linear-gradient(135deg, var(--brand-primary-1) 0%, var(--brand-primary-2) 100%);
-      border-radius: var(--radius-8-medium);
-      padding: var(--space-24);
-      color: white;
-      margin-bottom: var(--space-24);
-    }
-
-    .balance-label {
-      font-size: var(--font-size-14);
-      opacity: 0.8;
-      margin-bottom: var(--space-8);
-    }
-
-    .balance-amount {
-      font-size: var(--font-size-36);
-      font-weight: var(--font-weight-700-bold);
-      margin-bottom: var(--space-16);
-    }
-
-    .balance-actions {
-      display: flex;
-      gap: var(--space-12);
-    }
-
-    .btn-white {
-      height: var(--height-32-medium);
-      padding: 0 var(--space-16);
-      background-color: white;
-      color: var(--brand-primary-1);
-      border: none;
-      border-radius: var(--radius-4-small);
-      font-size: var(--font-size-14);
-      font-weight: var(--font-weight-500-medium);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .btn-white:hover {
-      background-color: var(--fill-4);
-    }
-
-    .btn-outline-white {
-      height: var(--height-32-medium);
-      padding: 0 var(--space-16);
-      background-color: transparent;
-      color: white;
-      border: 1px solid rgba(255,255,255,0.5);
-      border-radius: var(--radius-4-small);
-      font-size: var(--font-size-14);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .btn-outline-white:hover {
-      background-color: rgba(255,255,255,0.1);
-      border-color: white;
-    }
-
-    /* ========== 表单元素 ========== */
-    .form-group {
-      margin-bottom: var(--space-16);
-    }
-
-    .form-label {
-      display: block;
-      font-size: var(--font-size-14);
-      font-weight: var(--font-weight-500-medium);
-      color: var(--text-1);
-      margin-bottom: var(--space-8);
-    }
-
-    .form-input {
-      width: 100%;
-      height: var(--height-32-medium);
-      padding: 0 var(--space-12);
-      border: 1px solid var(--border-3);
-      border-radius: var(--radius-4-small);
-      font-size: var(--font-size-14);
-      color: var(--text-1);
-      background-color: var(--fill-5);
-      transition: all 0.2s;
-    }
-
-    .form-input:focus {
-      outline: none;
-      border-color: var(--brand-primary-1);
-      box-shadow: 0 0 0 3px var(--brand-primary-5);
-    }
-
-    .form-input::placeholder {
-      color: var(--text-3);
-    }
-
-    /* ========== 空状态 ========== */
-    .empty-state {
-      text-align: center;
-      padding: var(--space-48) var(--space-24);
-    }
-
-    .empty-icon {
-      font-size: 48px;
-      margin-bottom: var(--space-16);
-    }
-
-    .empty-title {
-      font-size: var(--font-size-16);
-      font-weight: var(--font-weight-500-medium);
-      color: var(--text-1);
-      margin-bottom: var(--space-8);
-    }
-
-    .empty-desc {
-      font-size: var(--font-size-14);
-      color: var(--text-3);
-      margin-bottom: var(--space-16);
-    }
-
     /* ========== 分页 ========== */
     .pagination {
       display: flex;
@@ -503,7 +296,7 @@
 
     .pagination-buttons {
       display: flex;
-      gap: var(--space-8);
+      gap: var(--space-4);
     }
 
     .page-btn {
@@ -535,62 +328,57 @@
       cursor: not-allowed;
     }
 
-    /* ========== 提示框 ========== */
-    .alert {
-      padding: var(--space-12) var(--space-16);
-      border-radius: var(--radius-4-small);
+    /* ========== 空状态 ========== */
+    .empty-state {
+      text-align: center;
+      padding: var(--space-48) var(--space-24);
+    }
+
+    .empty-title {
+      font-size: var(--font-size-16);
+      font-weight: var(--font-weight-500-medium);
+      color: var(--text-1);
+      margin-bottom: var(--space-8);
+    }
+
+    .empty-desc {
+      font-size: var(--font-size-14);
+      color: var(--text-3);
       margin-bottom: var(--space-16);
+    }
+
+    /* ========== 登录提示 ========== */
+    .login-prompt {
+      text-align: center;
+      padding: var(--space-48);
+    }
+
+    .login-prompt-title {
+      font-size: var(--font-size-20);
+      font-weight: var(--font-weight-600-semibold);
+      color: var(--text-1);
+      margin-bottom: var(--space-8);
+    }
+
+    .login-prompt-desc {
+      font-size: var(--font-size-14);
+      color: var(--text-3);
+      margin-bottom: var(--space-24);
+    }
+
+    .login-buttons {
       display: flex;
-      align-items: flex-start;
+      justify-content: center;
       gap: var(--space-12);
     }
 
-    .alert-info {
-      background-color: var(--brand-primary-5);
-      border-left: 3px solid var(--brand-primary-1);
-    }
-
-    .alert-warning {
-      background-color: var(--warning-4);
-      border-left: 3px solid var(--warning-1);
-    }
-
-    .alert-icon {
-      font-size: 18px;
-    }
-
-    .alert-content {
-      flex: 1;
-    }
-
-    .alert-title {
-      font-size: var(--font-size-14);
-      font-weight: var(--font-weight-500-medium);
-      color: var(--text-1);
-      margin-bottom: var(--space-4);
-    }
-
-    .alert-desc {
-      font-size: var(--font-size-13);
-      color: var(--text-2);
-    }
-
     /* ========== 响应式 ========== */
-    @media (max-width: 1200px) {
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
     @media (max-width: 768px) {
       .sidebar {
         display: none;
       }
       .main {
         margin-left: 0;
-      }
-      .stats-grid {
-        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -609,49 +397,21 @@
 
       <nav class="sidebar-nav">
         <div class="nav-section">
-          <div class="nav-section-title">Billing</div>
-          <a href="#" class="nav-item active">
-            <span class="nav-item-icon">📊</span>
-            <span>Billing Overview</span>
-          </a>
-          <a href="#" class="nav-item">
-            <span class="nav-item-icon">📋</span>
-            <span>Transactions</span>
-          </a>
-          <a href="#" class="nav-item">
-            <span class="nav-item-icon">📄</span>
-            <span>Billing Details</span>
-          </a>
-          <a href="#" class="nav-item">
-            <span class="nav-item-icon">💳</span>
-            <span>Payment Methods</span>
-          </a>
-        </div>
-
-        <div class="nav-section">
-          <div class="nav-section-title">Settings</div>
-          <a href="#" class="nav-item">
-            <span class="nav-item-icon">🔔</span>
-            <span>Low Balance Alert</span>
-          </a>
-          <a href="#" class="nav-item">
-            <span class="nav-item-icon">📈</span>
-            <span>Budgets</span>
-          </a>
-          <a href="#" class="nav-item">
-            <span class="nav-item-icon">📖</span>
-            <span>Documentation</span>
-          </a>
+          <a href="#" class="nav-item active">Billing Overview</a>
+          <a href="#" class="nav-item">Billing Transactions</a>
+          <a href="#" class="nav-item">Billing Details</a>
+          <a href="#" class="nav-item">Coding Plan</a>
+          <a href="#" class="nav-item">Low Balance Alert</a>
+          <a href="#" class="nav-item">Budgets</a>
         </div>
       </nav>
 
       <div class="sidebar-footer">
-        <div class="user-info">
-          <div class="user-avatar">JD</div>
-          <div class="user-details">
-            <div class="user-name">John Doe</div>
-            <div class="user-email">john@example.com</div>
-          </div>
+        <a href="#">Docs</a>
+        <div class="user-section">
+          <div class="user-label">Personal</div>
+          <a href="#">Log In</a>
+          <a href="#">Get Started</a>
         </div>
       </div>
     </aside>
@@ -660,72 +420,53 @@
     <main class="main">
       <!-- 顶部栏 -->
       <header class="topbar">
-        <div class="breadcrumb">
-          <a href="#">Home</a>
-          <span>/</span>
-          <span class="breadcrumb-current">Billing Overview</span>
+        <div class="topbar-left">
+          <a href="#" class="back-link">Back</a>
+          <span class="topbar-title">Billing</span>
         </div>
         <div class="topbar-actions">
-          <button class="btn-secondary">Help</button>
-          <button class="btn-primary">Recharge</button>
+          <button class="btn-secondary">Docs</button>
         </div>
       </header>
 
       <!-- 内容区 -->
       <div class="content">
-        <div class="page-header">
-          <h1 class="page-title">Billing Overview</h1>
-          <p class="page-desc">Manage your account balance, view transactions and billing details</p>
-        </div>
 
-        <!-- 余额卡片 -->
-        <div class="balance-card">
-          <div class="balance-label">Current Balance</div>
-          <div class="balance-amount">$1,234.56</div>
-          <div class="balance-actions">
-            <button class="btn-white">Recharge Now</button>
-            <button class="btn-outline-white">Auto Recharge Settings</button>
-          </div>
-        </div>
-
-        <!-- 低余额提醒 -->
-        <div class="alert alert-warning">
-          <span class="alert-icon">⚠️</span>
-          <div class="alert-content">
-            <div class="alert-title">Low Balance Alert</div>
-            <div class="alert-desc">Your balance is below $50. Please recharge to avoid service interruption.</div>
+        <!-- 登录提示（未登录状态） -->
+        <div class="card">
+          <div class="card-body">
+            <div class="login-prompt">
+              <h2 class="login-prompt-title">Sign in to view your billing</h2>
+              <p class="login-prompt-desc">Log in to access your billing overview, transactions, and payment settings.</p>
+              <div class="login-buttons">
+                <button class="btn-primary">Log In</button>
+                <button class="btn-secondary">Get Started</button>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- 统计卡片 -->
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-label">This Month Spending</div>
-            <div class="stat-value">$456.78</div>
-            <div class="stat-change up">↑ 12% vs last month</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">API Calls</div>
-            <div class="stat-value highlight">12,345</div>
-            <div class="stat-change up">↑ 8% vs last month</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">GPU Hours</div>
-            <div class="stat-value">89.5h</div>
-            <div class="stat-change down">↓ 3% vs last month</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Active Services</div>
-            <div class="stat-value success">5</div>
-            <div class="stat-change">No change</div>
-          </div>
-        </div>
+        <!-- 以下为登录后显示的内容示例 -->
 
-        <!-- 最近交易 -->
+        <!-- Billing Overview -->
         <div class="card">
           <div class="card-header">
-            <h2 class="card-title">Recent Transactions</h2>
-            <button class="btn-secondary">View All</button>
+            <h2 class="card-title">Billing Overview</h2>
+          </div>
+          <div class="card-body">
+            <div class="empty-state">
+              <h3 class="empty-title">No billing data available</h3>
+              <p class="empty-desc">Start using Novita AI services to see your billing information here.</p>
+              <button class="btn-primary">Explore Services</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Billing Transactions -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Billing Transactions</h2>
+            <button class="btn-secondary">Export</button>
           </div>
           <div class="table-wrapper">
             <table>
@@ -733,7 +474,6 @@
                 <tr>
                   <th>Date</th>
                   <th>Description</th>
-                  <th>Type</th>
                   <th>Amount</th>
                   <th>Status</th>
                 </tr>
@@ -741,65 +481,45 @@
               <tbody>
                 <tr>
                   <td>2026-02-12</td>
-                  <td>API Usage - GPT-4 Turbo</td>
-                  <td><span class="tag-system">Usage</span></td>
-                  <td class="text-1">-$12.50</td>
+                  <td>API Usage - Model Inference</td>
+                  <td>-$12.50</td>
                   <td><span class="status status-success">Completed</span></td>
                 </tr>
                 <tr>
                   <td>2026-02-11</td>
-                  <td>GPU Instance - A100 80GB</td>
-                  <td><span class="tag-system">Usage</span></td>
-                  <td class="text-1">-$45.00</td>
+                  <td>GPU Instance - A100</td>
+                  <td>-$45.00</td>
                   <td><span class="status status-success">Completed</span></td>
                 </tr>
                 <tr>
                   <td>2026-02-10</td>
                   <td>Account Recharge</td>
-                  <td><span class="tag-success">Recharge</span></td>
-                  <td style="color: var(--success-1)">+$500.00</td>
+                  <td>+$500.00</td>
                   <td><span class="status status-success">Completed</span></td>
                 </tr>
                 <tr>
                   <td>2026-02-09</td>
-                  <td>Storage - 100GB/month</td>
-                  <td><span class="tag-system">Usage</span></td>
-                  <td class="text-1">-$5.00</td>
-                  <td><span class="status status-success">Completed</span></td>
-                </tr>
-                <tr>
-                  <td>2026-02-08</td>
-                  <td>API Usage - Stable Diffusion</td>
-                  <td><span class="tag-system">Usage</span></td>
-                  <td class="text-1">-$8.25</td>
+                  <td>Storage Usage</td>
+                  <td>-$5.00</td>
                   <td><span class="status status-pending">Processing</span></td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="pagination">
-            <div class="pagination-info">Showing 1-5 of 128 transactions</div>
+            <div class="pagination-info">Showing 1-4 of 4 transactions</div>
             <div class="pagination-buttons">
-              <button class="page-btn" disabled>←</button>
+              <button class="page-btn" disabled>Prev</button>
               <button class="page-btn active">1</button>
-              <button class="page-btn">2</button>
-              <button class="page-btn">3</button>
-              <button class="page-btn">...</button>
-              <button class="page-btn">26</button>
-              <button class="page-btn">→</button>
+              <button class="page-btn" disabled>Next</button>
             </div>
           </div>
         </div>
 
-        <!-- 使用量明细 -->
+        <!-- Billing Details -->
         <div class="card">
           <div class="card-header">
-            <h2 class="card-title">Usage by Service</h2>
-            <select class="form-input" style="width: auto;">
-              <option>This Month</option>
-              <option>Last Month</option>
-              <option>Last 3 Months</option>
-            </select>
+            <h2 class="card-title">Billing Details</h2>
           </div>
           <div class="table-wrapper">
             <table>
@@ -813,28 +533,22 @@
               </thead>
               <tbody>
                 <tr>
-                  <td class="text-1 font-medium">GPT-4 Turbo API</td>
+                  <td>Model API Calls</td>
                   <td>125,000 tokens</td>
                   <td>$0.01 / 1K tokens</td>
-                  <td class="text-1">$125.00</td>
+                  <td>$125.00</td>
                 </tr>
                 <tr>
-                  <td class="text-1 font-medium">A100 80GB GPU</td>
+                  <td>GPU Compute</td>
                   <td>45.5 hours</td>
                   <td>$2.50 / hour</td>
-                  <td class="text-1">$113.75</td>
+                  <td>$113.75</td>
                 </tr>
                 <tr>
-                  <td class="text-1 font-medium">Stable Diffusion XL</td>
-                  <td>2,500 images</td>
-                  <td>$0.02 / image</td>
-                  <td class="text-1">$50.00</td>
-                </tr>
-                <tr>
-                  <td class="text-1 font-medium">Storage</td>
+                  <td>Storage</td>
                   <td>100 GB</td>
                   <td>$0.05 / GB</td>
-                  <td class="text-1">$5.00</td>
+                  <td>$5.00</td>
                 </tr>
               </tbody>
             </table>
