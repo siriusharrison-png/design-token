@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Token 使用指南</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --brand-primary-1: #1161fe;
+      --brand-primary-5: #f4f7ff;
+      --text-1: #181818;
+      --text-2: #616161;
+      --text-3: #9e9e9e;
+      --border-3: #ebecef;
+      --fill-4: #f7f8fa;
+      --fill-5: #ffffff;
+      --success-1: #00b42a;
+      --success-4: #e8ffea;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: var(--text-1);
+      background: var(--fill-4);
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, var(--brand-primary-1) 0%, #4080ff 100%);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .header p {
+      font-size: 18px;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .header .version {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      margin-top: 16px;
+    }
+
+    /* Container */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    /* Section */
+    .section {
+      background: var(--fill-5);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .section h2 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--text-1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section h2 .icon {
+      width: 32px;
+      height: 32px;
+      background: var(--brand-primary-5);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .section h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 24px 0 12px 0;
+      color: var(--text-1);
+    }
+
+    .section p {
+      color: var(--text-2);
+      margin-bottom: 16px;
+    }
+
+    /* Code Block */
+    .code-block {
+      background: #1e1e1e;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 16px 0;
+      overflow-x: auto;
+    }
+
+    .code-block code {
+      color: #d4d4d4;
+      font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .code-block .comment { color: #6a9955; }
+    .code-block .tag { color: #569cd6; }
+    .code-block .attr { color: #9cdcfe; }
+    .code-block .string { color: #ce9178; }
+    .code-block .property { color: #9cdcfe; }
+    .code-block .value { color: #ce9178; }
+
+    /* Inline Code */
+    code.inline {
+      background: var(--fill-4);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+      font-size: 14px;
+      color: #e83e8c;
+    }
+
+    /* Steps */
+    .steps {
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      padding-left: 48px;
+      margin-bottom: 24px;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 32px;
+      height: 32px;
+      background: var(--brand-primary-1);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .step h4 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .step p {
+      margin-bottom: 8px;
+    }
+
+    /* Table */
+    .table-wrapper {
+      overflow-x: auto;
+      margin: 16px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th, td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-3);
+    }
+
+    th {
+      background: var(--fill-4);
+      font-weight: 600;
+      color: var(--text-1);
+    }
+
+    td {
+      color: var(--text-2);
+    }
+
+    td code {
+      background: var(--brand-primary-5);
+      color: var(--brand-primary-1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    /* Color Swatch */
+    .color-row td:first-child {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .color-swatch {
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      border: 1px solid var(--border-3);
+    }
+
+    /* Button Demo */
+    .demo-area {
+      background: var(--fill-4);
+      border-radius: 8px;
+      padding: 24px;
+      margin: 16px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .demo-btn {
+      height: 32px;
+      padding: 0 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .demo-btn-primary {
+      background: var(--brand-primary-1);
+      color: white;
+      border: none;
+    }
+
+    .demo-btn-primary:hover {
+      background: #0e58ea;
+    }
+
+    .demo-btn-secondary {
+      background: white;
+      color: var(--text-2);
+      border: 1px solid var(--border-3);
+    }
+
+    .demo-btn-secondary:hover {
+      border-color: var(--brand-primary-1);
+      color: var(--brand-primary-1);
+    }
+
+    /* Tags Demo */
+    .demo-tag {
+      display: inline-flex;
+      align-items: center;
+      height: 20px;
+      padding: 0 8px;
+      border-radius: 2px;
+      font-size: 12px;
+    }
+
+    .demo-tag-system {
+      background: var(--brand-primary-5);
+      color: var(--brand-primary-1);
+    }
+
+    .demo-tag-success {
+      background: #e8ffea;
+      color: #009a29;
+    }
+
+    .demo-tag-danger {
+      background: #ffece8;
+      color: #cb2634;
+    }
+
+    /* Alert */
+    .alert {
+      background: var(--brand-primary-5);
+      border-left: 4px solid var(--brand-primary-1);
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+    }
+
+    .alert-success {
+      background: var(--success-4);
+      border-left-color: var(--success-1);
+    }
+
+    .alert p {
+      margin: 0;
+      color: var(--text-1);
+    }
+
+    /* Link */
+    a {
+      color: var(--brand-primary-1);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Features Grid */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .feature {
+      background: var(--fill-4);
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .feature .emoji {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .feature h4 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .feature p {
+      font-size: 14px;
+      color: var(--text-3);
+      margin: 0;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-3);
+      font-size: 14px;
+    }
+
+    /* TOC */
+    .toc {
+      background: var(--fill-4);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .toc h3 {
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+
+    .toc ul {
+      list-style: none;
+    }
+
+    .toc li {
+      margin: 8px 0;
+    }
+
+    .toc a {
+      color: var(--text-2);
+      font-size: 14px;
+    }
+
+    .toc a:hover {
+      color: var(--brand-primary-1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <h1>Design Token</h1>
+    <p>一套从 Figma 导出的设计令牌，包含 CSS 变量和工具类，帮助你快速构建一致的用户界面</p>
+    <span class="version">v1.0.0</span>
+  </div>
+
+  <div class="container">
+
+    <!-- TOC -->
+    <div class="toc">
+      <h3>目录</h3>
+      <ul>
+        <li><a href="#intro">项目介绍</a></li>
+        <li><a href="#install">下载安装</a></li>
+        <li><a href="#quickstart">快速开始</a></li>
+        <li><a href="#tokens">Token 对照表</a></li>
+        <li><a href="#components">组件类</a></li>
+        <li><a href="#ai">AI 生成指南</a></li>
+        <li><a href="#theme">自定义主题</a></li>
+      </ul>
+    </div>
+
+    <!-- 项目介绍 -->
+    <div class="section" id="intro">
+      <h2><span class="icon">📦</span> 项目介绍</h2>
+      <p>Design Token 是一套设计系统规范，将 Figma 中的设计样式（颜色、间距、圆角等）转换成代码可用的格式。使用这套规范，可以确保多人协作时生成的页面都保持一致的设计风格。</p>
+
+      <div class="features">
+        <div class="feature">
+          <div class="emoji">🎨</div>
+          <h4>Figma 命名一致</h4>
+          <p>CSS 类名与 Figma 完全对应</p>
+        </div>
+        <div class="feature">
+          <div class="emoji">📦</div>
+          <h4>开箱即用</h4>
+          <p>引入一个 CSS 文件即可使用</p>
+        </div>
+        <div class="feature">
+          <div class="emoji">🎭</div>
+          <h4>支持多主题</h4>
+          <p>基于 CSS 变量轻松换肤</p>
+        </div>
+        <div class="feature">
+          <div class="emoji">🤖</div>
+          <h4>AI 友好</h4>
+          <p>清晰规范方便 AI 生成</p>
+        </div>
+      </div>
+
+      <p><strong>GitHub 地址：</strong><a href="https://github.com/siriusharrison-png/design-token" target="_blank">https://github.com/siriusharrison-png/design-token</a></p>
+    </div>
+
+    <!-- 下载安装 -->
+    <div class="section" id="install">
+      <h2><span class="icon">⬇️</span> 下载安装</h2>
+      <p>提供三种方式，选择最适合你的：</p>
+
+      <div class="steps">
+        <div class="step">
+          <h4>方式一：CDN 引入（最简单）</h4>
+          <p>直接在 HTML 的 <code class="inline">&lt;head&gt;</code> 中添加：</p>
+          <div class="code-block">
+            <code><span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"https://cdn.jsdelivr.net/gh/siriusharrison-png/design-token@main/dist/design-tokens.css"</span><span class="tag">&gt;</span></code>
+          </div>
+        </div>
+
+        <div class="step">
+          <h4>方式二：下载文件</h4>
+          <p>从 GitHub 下载 <code class="inline">dist/design-tokens.css</code> 文件，放到你的项目中：</p>
+          <div class="code-block">
+            <code><span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"path/to/design-tokens.css"</span><span class="tag">&gt;</span></code>
+          </div>
+        </div>
+
+        <div class="step">
+          <h4>方式三：npm 安装</h4>
+          <p>如果你的项目使用 npm：</p>
+          <div class="code-block">
+            <code>npm install design-token</code>
+          </div>
+          <p>然后在代码中引入：</p>
+          <div class="code-block">
+            <code><span class="comment">// JavaScript</span><br>import <span class="string">'design-token/dist/design-tokens.css'</span>;</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 快速开始 -->
+    <div class="section" id="quickstart">
+      <h2><span class="icon">🚀</span> 快速开始</h2>
+
+      <h3>使用 CSS 变量</h3>
+      <p>在你自己的 CSS 中，可以直接使用这些变量：</p>
+      <div class="code-block">
+        <code><span class="property">.my-button</span> {<br>  <span class="property">background-color</span>: <span class="value">var(--brand-primary-1)</span>;<br>  <span class="property">color</span>: <span class="value">var(--text-4)</span>;<br>  <span class="property">padding</span>: <span class="value">var(--space-8) var(--space-16)</span>;<br>  <span class="property">border-radius</span>: <span class="value">var(--radius-4-small)</span>;<br>}</code>
+      </div>
+
+      <h3>使用工具类</h3>
+      <p>直接在 HTML 中使用现成的类名：</p>
+      <div class="code-block">
+        <code><span class="comment">&lt;!-- 按钮 --&gt;</span><br><span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="string">"bg-brand-primary-1 text-4 h-32-medium px-16 radius-4-small"</span><span class="tag">&gt;</span><br>  提交<br><span class="tag">&lt;/button&gt;</span><br><br><span class="comment">&lt;!-- 卡片 --&gt;</span><br><span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"bg-fill-5 p-16 radius-6-regular border-3"</span> <span class="attr">style</span>=<span class="string">"border: 1px solid var(--border-3)"</span><span class="tag">&gt;</span><br>  <span class="tag">&lt;h3</span> <span class="attr">class</span>=<span class="string">"text-1 font-size-16 font-semibold mb-8"</span><span class="tag">&gt;</span>标题<span class="tag">&lt;/h3&gt;</span><br>  <span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="string">"text-2 font-size-14"</span><span class="tag">&gt;</span>内容描述<span class="tag">&lt;/p&gt;</span><br><span class="tag">&lt;/div&gt;</span></code>
+      </div>
+
+      <h3>效果演示</h3>
+      <div class="demo-area">
+        <button class="demo-btn demo-btn-primary">主按钮</button>
+        <button class="demo-btn demo-btn-secondary">次按钮</button>
+        <span class="demo-tag demo-tag-system">系统通知</span>
+        <span class="demo-tag demo-tag-success">成功</span>
+        <span class="demo-tag demo-tag-danger">警告</span>
+      </div>
+    </div>
+
+    <!-- Token 对照表 -->
+    <div class="section" id="tokens">
+      <h2><span class="icon">📋</span> Token 对照表</h2>
+
+      <h3>颜色</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>颜色</th>
+              <th>CSS 变量</th>
+              <th>工具类</th>
+              <th>用途</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="color-swatch" style="background:#1161fe;display:inline-block;vertical-align:middle;margin-right:8px"></span>品牌色</td>
+              <td><code>--brand-primary-1</code></td>
+              <td><code>.bg-brand-primary-1</code></td>
+              <td>主按钮、链接</td>
+            </tr>
+            <tr>
+              <td><span class="color-swatch" style="background:#f4f7ff;display:inline-block;vertical-align:middle;margin-right:8px"></span>品牌浅色</td>
+              <td><code>--brand-primary-5</code></td>
+              <td><code>.bg-brand-primary-5</code></td>
+              <td>提示背景</td>
+            </tr>
+            <tr>
+              <td><span class="color-swatch" style="background:#181818;display:inline-block;vertical-align:middle;margin-right:8px"></span>主文字</td>
+              <td><code>--text-1</code></td>
+              <td><code>.text-1</code></td>
+              <td>标题、正文</td>
+            </tr>
+            <tr>
+              <td><span class="color-swatch" style="background:#616161;display:inline-block;vertical-align:middle;margin-right:8px"></span>次文字</td>
+              <td><code>--text-2</code></td>
+              <td><code>.text-2</code></td>
+              <td>次要文字</td>
+            </tr>
+            <tr>
+              <td><span class="color-swatch" style="background:#9e9e9e;display:inline-block;vertical-align:middle;margin-right:8px"></span>辅助文字</td>
+              <td><code>--text-3</code></td>
+              <td><code>.text-3</code></td>
+              <td>提示、禁用</td>
+            </tr>
+            <tr>
+              <td><span class="color-swatch" style="background:#ffffff;display:inline-block;vertical-align:middle;margin-right:8px"></span>反色文字</td>
+              <td><code>--text-4</code></td>
+              <td><code>.text-4</code></td>
+              <td>深色背景上</td>
+            </tr>
+            <tr>
+              <td><span class="color-swatch" style="background:#ebecef;display:inline-block;vertical-align:middle;margin-right:8px"></span>边框</td>
+              <td><code>--border-3</code></td>
+              <td><code>.border-3</code></td>
+              <td>常规边框</td>
+            </tr>
+            <tr>
+              <td><span class="color-swatch" style="background:#00b42a;display:inline-block;vertical-align:middle;margin-right:8px"></span>成功</td>
+              <td><code>--success-1</code></td>
+              <td><code>.bg-success-1</code></td>
+              <td>成功状态</td>
+            </tr>
+            <tr>
+              <td><span class="color-swatch" style="background:#ff7d00;display:inline-block;vertical-align:middle;margin-right:8px"></span>警告</td>
+              <td><code>--warning-1</code></td>
+              <td><code>.bg-warning-1</code></td>
+              <td>警告状态</td>
+            </tr>
+            <tr>
+              <td><span class="color-swatch" style="background:#f53f3f;display:inline-block;vertical-align:middle;margin-right:8px"></span>危险</td>
+              <td><code>--red-1</code></td>
+              <td><code>.bg-red-1</code></td>
+              <td>错误、危险</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>间距</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>CSS 变量</th>
+              <th>值</th>
+              <th>Padding</th>
+              <th>Margin</th>
+              <th>Gap</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>--space-0</code></td>
+              <td>0px</td>
+              <td><code>.p-0</code></td>
+              <td><code>.m-0</code></td>
+              <td><code>.gap-0</code></td>
+            </tr>
+            <tr>
+              <td><code>--space-4</code></td>
+              <td>4px</td>
+              <td><code>.p-4</code> <code>.px-4</code> <code>.py-4</code></td>
+              <td><code>.m-4</code> <code>.mt-4</code></td>
+              <td><code>.gap-4</code></td>
+            </tr>
+            <tr>
+              <td><code>--space-8</code></td>
+              <td>8px</td>
+              <td><code>.p-8</code> <code>.px-8</code> <code>.py-8</code></td>
+              <td><code>.m-8</code> <code>.mt-8</code> <code>.mb-8</code></td>
+              <td><code>.gap-8</code></td>
+            </tr>
+            <tr>
+              <td><code>--space-12</code></td>
+              <td>12px</td>
+              <td><code>.p-12</code> <code>.px-12</code></td>
+              <td><code>.m-12</code></td>
+              <td><code>.gap-12</code></td>
+            </tr>
+            <tr>
+              <td><code>--space-16</code></td>
+              <td>16px</td>
+              <td><code>.p-16</code> <code>.px-16</code></td>
+              <td><code>.m-16</code> <code>.mt-16</code></td>
+              <td><code>.gap-16</code></td>
+            </tr>
+            <tr>
+              <td><code>--space-24</code></td>
+              <td>24px</td>
+              <td><code>.p-24</code></td>
+              <td><code>.m-24</code> <code>.mb-24</code></td>
+              <td><code>.gap-24</code></td>
+            </tr>
+            <tr>
+              <td><code>--space-48</code></td>
+              <td>48px</td>
+              <td><code>.p-48</code></td>
+              <td><code>.mt-48</code></td>
+              <td><code>.gap-48</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>圆角</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>CSS 变量</th>
+              <th>值</th>
+              <th>工具类</th>
+              <th>用途</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>--radius-0-none</code></td>
+              <td>0px</td>
+              <td><code>.radius-0-none</code></td>
+              <td>无圆角</td>
+            </tr>
+            <tr>
+              <td><code>--radius-2-minismall</code></td>
+              <td>2px</td>
+              <td><code>.radius-2-minismall</code></td>
+              <td>标签</td>
+            </tr>
+            <tr>
+              <td><code>--radius-4-small</code></td>
+              <td>4px</td>
+              <td><code>.radius-4-small</code></td>
+              <td>按钮、输入框</td>
+            </tr>
+            <tr>
+              <td><code>--radius-6-regular</code></td>
+              <td>6px</td>
+              <td><code>.radius-6-regular</code></td>
+              <td>表单、卡片</td>
+            </tr>
+            <tr>
+              <td><code>--radius-8-medium</code></td>
+              <td>8px</td>
+              <td><code>.radius-8-medium</code></td>
+              <td>弹窗</td>
+            </tr>
+            <tr>
+              <td><code>--radius-999-round</code></td>
+              <td>999px</td>
+              <td><code>.radius-999-round</code></td>
+              <td>全圆角、徽章</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>组件高度</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>CSS 变量</th>
+              <th>值</th>
+              <th>工具类</th>
+              <th>用途</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>--height-20-supersmall</code></td>
+              <td>20px</td>
+              <td><code>.h-20-supersmall</code></td>
+              <td>标签</td>
+            </tr>
+            <tr>
+              <td><code>--height-24-minismall</code></td>
+              <td>24px</td>
+              <td><code>.h-24-minismall</code></td>
+              <td>小标签</td>
+            </tr>
+            <tr>
+              <td><code>--height-28-small</code></td>
+              <td>28px</td>
+              <td><code>.h-28-small</code></td>
+              <td>小按钮</td>
+            </tr>
+            <tr>
+              <td><code>--height-32-medium</code></td>
+              <td>32px</td>
+              <td><code>.h-32-medium</code></td>
+              <td>标准按钮、输入框</td>
+            </tr>
+            <tr>
+              <td><code>--height-36-large</code></td>
+              <td>36px</td>
+              <td><code>.h-36-large</code></td>
+              <td>大按钮</td>
+            </tr>
+            <tr>
+              <td><code>--height-40-xlarge</code></td>
+              <td>40px</td>
+              <td><code>.h-40-xlarge</code></td>
+              <td>特大按钮</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 组件类 -->
+    <div class="section" id="components">
+      <h2><span class="icon">🧩</span> 组件类</h2>
+      <p>预设的组合类，开箱即用：</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>类名</th>
+              <th>效果</th>
+              <th>用途</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>.btn-primary</code></td>
+              <td><button class="demo-btn demo-btn-primary" style="height:28px;font-size:12px">主按钮</button></td>
+              <td>主要操作</td>
+            </tr>
+            <tr>
+              <td><code>.btn-secondary</code></td>
+              <td><button class="demo-btn demo-btn-secondary" style="height:28px;font-size:12px">次按钮</button></td>
+              <td>次要操作</td>
+            </tr>
+            <tr>
+              <td><code>.card</code></td>
+              <td>白底 + 边框 + 圆角 + 内边距</td>
+              <td>卡片容器</td>
+            </tr>
+            <tr>
+              <td><code>.tag-system</code></td>
+              <td><span class="demo-tag demo-tag-system">系统</span></td>
+              <td>系统通知</td>
+            </tr>
+            <tr>
+              <td><code>.tag-success</code></td>
+              <td><span class="demo-tag demo-tag-success">成功</span></td>
+              <td>成功状态</td>
+            </tr>
+            <tr>
+              <td><code>.tag-danger</code></td>
+              <td><span class="demo-tag demo-tag-danger">警告</span></td>
+              <td>警告/危险</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- AI 生成指南 -->
+    <div class="section" id="ai">
+      <h2><span class="icon">🤖</span> AI 生成页面指南</h2>
+      <p>当你使用 AI（如 Claude、ChatGPT）生成页面时，可以给 AI 以下提示，确保生成的代码符合设计规范：</p>
+
+      <div class="alert">
+        <p><strong>复制下面的内容发给 AI：</strong></p>
+      </div>
+
+      <div class="code-block">
+        <code>请使用 design-token 设计系统来生成页面。<br><br>首先在 &lt;head&gt; 中引入样式：<br>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/siriusharrison-png/design-token@main/dist/design-tokens.css"&gt;<br><br>然后遵循以下规范：<br><br>1. 颜色必须使用 CSS 变量：<br>   - 品牌色：var(--brand-primary-1)<br>   - 文字色：var(--text-1), var(--text-2), var(--text-3)<br>   - 边框色：var(--border-3)<br>   - 背景色：var(--fill-4), var(--fill-5)<br><br>2. 间距使用工具类：<br>   - padding: .p-8, .p-16, .px-16, .py-8<br>   - margin: .m-8, .mt-16, .mb-24<br>   - gap: .gap-8, .gap-16<br><br>3. 圆角使用工具类：<br>   - 按钮/输入框: .radius-4-small<br>   - 卡片: .radius-6-regular<br>   - 弹窗: .radius-8-medium<br><br>4. 高度使用工具类：<br>   - 小按钮: .h-28-small<br>   - 标准按钮: .h-32-medium<br>   - 大按钮: .h-36-large<br><br>5. 组件类：<br>   - 主按钮: .btn-primary<br>   - 次按钮: .btn-secondary<br>   - 卡片: .card<br>   - 标签: .tag-system, .tag-success, .tag-danger</code>
+      </div>
+
+      <div class="alert alert-success">
+        <p><strong>提示：</strong>把这段话保存下来，每次让 AI 生成页面时都发一遍，就能保证所有生成的页面都使用相同的设计样式！</p>
+      </div>
+    </div>
+
+    <!-- 自定义主题 -->
+    <div class="section" id="theme">
+      <h2><span class="icon">🎭</span> 自定义主题</h2>
+      <p>基于 CSS 变量，你可以轻松创建自定义主题。只需要覆盖变量值即可：</p>
+
+      <div class="code-block">
+        <code><span class="comment">/* 深色主题示例 */</span><br><span class="property">.dark-theme</span> {<br>  <span class="property">--brand-primary-1</span>: <span class="value">#4080ff</span>;<br>  <span class="property">--text-1</span>: <span class="value">#ffffff</span>;<br>  <span class="property">--text-2</span>: <span class="value">#c9cdd4</span>;<br>  <span class="property">--fill-4</span>: <span class="value">#1e1e1e</span>;<br>  <span class="property">--fill-5</span>: <span class="value">#2d2d2d</span>;<br>  <span class="property">--border-3</span>: <span class="value">#3d3d3d</span>;<br>}</code>
+      </div>
+
+      <div class="code-block">
+        <code><span class="comment">&lt;!-- 使用主题 --&gt;</span><br><span class="tag">&lt;body</span> <span class="attr">class</span>=<span class="string">"dark-theme"</span><span class="tag">&gt;</span><br>  <span class="comment">&lt;!-- 所有组件自动应用深色主题 --&gt;</span><br><span class="tag">&lt;/body&gt;</span></code>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>Design Token v1.0.0 · 由转转设计系统团队维护</p>
+    <p style="margin-top:8px"><a href="https://github.com/siriusharrison-png/design-token" target="_blank">GitHub</a></p>
+  </div>
+
+</body>
+</html>
