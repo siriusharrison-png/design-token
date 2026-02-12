@@ -11,6 +11,11 @@ A set of design tokens exported from Figma, including CSS variables and utility 
 - **Theme Support** - CSS variables make theme switching easy
 - **AI-Friendly** - Clear naming conventions help AI generate design-compliant pages
 
+## Live Preview
+
+- [Usage Guide](https://htmlpreview.github.io/?https://github.com/siriusharrison-png/design-token/blob/main/docs/guide.html) - Complete documentation and code examples
+- [Token Preview](https://htmlpreview.github.io/?https://github.com/siriusharrison-png/design-token/blob/main/docs/preview.html) - Visual preview of all tokens
+
 ## Installation
 
 ### Option 1: Direct Download

@@ -11,6 +11,11 @@
 - **支持多主题** - 基于 CSS 变量，轻松实现主题切换
 - **AI 友好** - 提供清晰的命名规范，方便 AI 生成符合设计规范的页面
 
+## 在线预览
+
+- [使用指南](https://htmlpreview.github.io/?https://github.com/siriusharrison-png/design-token/blob/main/docs/guide.html) - 完整的使用说明和代码示例
+- [Token 预览](https://htmlpreview.github.io/?https://github.com/siriusharrison-png/design-token/blob/main/docs/preview.html) - 可视化查看所有 Token
+
 ## 安装
 
 ### 方式一：直接下载
