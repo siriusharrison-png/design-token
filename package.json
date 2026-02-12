@@ -18,13 +18,13 @@
     "utility-classes",
     "tailwind"
   ],
-  "homepage": "https://github.com/siriusharrison/design-token",
+  "homepage": "https://github.com/siriusharrison-png/design-token",
   "repository": {
     "type": "git",
-    "url": "https://github.com/siriusharrison/design-token.git"
+    "url": "https://github.com/siriusharrison-png/design-token.git"
   },
   "bugs": {
-    "url": "https://github.com/siriusharrison/design-token/issues"
+    "url": "https://github.com/siriusharrison-png/design-token/issues"
   },
   "author": "siriusharrison",
   "license": "MIT"

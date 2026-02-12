@@ -24,7 +24,7 @@ Download [dist/design-tokens.css](./dist/design-tokens.css) and include it in yo
 ### Option 2: CDN
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/siriusharrison/design-token@main/dist/design-tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/siriusharrison-png/design-token@main/dist/design-tokens.css">
 ```
 
 ### Option 3: npm

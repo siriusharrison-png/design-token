@@ -24,7 +24,7 @@
 ### 方式二：CDN 引入
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/siriusharrison/design-token@main/dist/design-tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/siriusharrison-png/design-token@main/dist/design-tokens.css">
 ```
 
 ### 方式三：npm 安装
