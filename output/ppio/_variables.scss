@@ -1,0 +1,138 @@
+// ==================== Colors ====================
+
+$transparent-neutral: #ffffff33;
+$transparent-gray: #86909c33;
+$transparent-green: #23c34333;
+$transparent-orange: #ff9a2e33;
+$transparent-red: #f7656033;
+$transparent-purple: #b67de833;
+$transparent-blue: #bed4ff33;
+$red-0: #cb2634;
+$red-1: #f53f3f;
+$red-2: #f76560;
+$red-3: #fdcdc5;
+$red-4: #ffece8;
+$neutral-0: #181818;
+$neutral-1: #616161;
+$neutral-2: #9e9e9e;
+$neutral-3: #d3d4d5;
+$neutral-4: #ebecef;
+$neutral-5: #ffffff;
+$purple-0: #7e22ce;
+$purple-1: #9e4de6;
+$purple-2: #b67de8;
+$purple-3: #dac6ec;
+$purple-4: #f2f0f5;
+$gray-0: #5c6168;
+$gray-1: #86909c;
+$gray-2: #c9cdd4;
+$gray-3: #f2f3f5;
+$gray-4: #f7f8fa;
+$blue-0: #0e58ea;
+$blue-1: #1161fe;
+$blue-2: #4080ff;
+$blue-3: #bed4ff;
+$blue-4: #e6edfa;
+$blue-5: #f4f7ff;
+$green-0: #009a29;
+$green-1: #00b42a;
+$green-2: #23c343;
+$green-3: #aff0b5;
+$green-4: #e8ffea;
+$orange-0: #d25f00;
+$orange-1: #ff7d00;
+$orange-2: #ff9a2e;
+$orange-3: #ffe4ba;
+$orange-4: #fff7e8;
+$mask-0: #18181833;
+$mask-1: #18181866;
+
+// ==================== Spacing ====================
+
+$space-0: 0;
+$space-2: 2px;
+$space-4: 4px;
+$space-8: 8px;
+$space-12: 12px;
+$space-16: 16px;
+$space-24: 24px;
+$space-48: 48px;
+$space-80: 80px;
+$space-120: 120px;
+
+// ==================== Radius ====================
+
+$radius-999-round: 999px;
+$radius-8-medium: 8px;
+$radius-6-regular: 6px;
+$radius-2-minismall: 2px;
+$radius-12-large: 12px;
+$radius-4-small: 4px;
+$radius-0-none: 0;
+
+// ==================== Typography ====================
+
+// Font Size
+$font-size-12: 12px;
+$font-size-13: 13px;
+$font-size-14: 14px;
+$font-size-16: 16px;
+$font-size-18: 18px;
+$font-size-20: 20px;
+$font-size-24: 24px;
+$font-size-28: 28px;
+$font-size-36: 36px;
+$font-size-44: 44px;
+$font-size-56: 56px;
+
+// Font Weight
+$font-weight-500-medium: 500;
+$font-weight-600-semibold: 600;
+$font-weight-700-bold: 700;
+$font-weight-300-light: 300;
+$font-weight-400-regular: 400;
+$font-weight-100-thin: 100;
+$font-weight-200-extralight: 200;
+$font-weight-900-black: 900;
+
+// Font Spacing
+$font-spacing-normal: 0;
+$font-spacing-tight: 0.9px;
+$font-spacing-loose: 1.2px;
+
+// Component Height
+$height-44-superlarge: 44px;
+$height-40-xlarge: 40px;
+$height-36-large: 36px;
+$height-20-supersmall: 20px;
+$height-32-medium: 32px;
+$height-28-small: 28px;
+$height-24-minismall: 24px;
+
+
+// ==================== Stroke ====================
+
+$stroke-border-1: 1px;
+$stroke-border-none: 0;
+$stroke-icon-16: 1.2px;
+$stroke-icon-24: 1.6px;
+$stroke-icon-14: 1px;
+$stroke-icon-12: 1px;
+
+// ==================== Component Padding ====================
+
+$component-large-left-right: $space-16;
+$component-large-top-bottom: $space-8;
+$component-small-left-right: $space-8;
+$component-small-top-bottom: $space-2;
+$component-medium-left-right: $space-12;
+$component-medium-top-bottom: $space-4;
+
+// ==================== Frame Padding ====================
+
+$frame-large: $space-24;
+$frame-medium: $space-16;
+$frame-superlarge: $space-120;
+$frame-small: $space-8;
+$frame-xlarge: $space-80;
+$frame-mini: $space-4;

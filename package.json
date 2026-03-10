@@ -1,13 +1,17 @@
 {
   "name": "design-token",
-  "version": "1.0.0",
-  "description": "Design tokens from Figma - CSS variables and utility classes for building consistent UIs",
-  "main": "dist/design-tokens.css",
-  "style": "dist/design-tokens.css",
+  "version": "2.0.0",
+  "description": "Figma Design Token 转换工具 - 将 Figma Variables/Styles 导出为 SCSS",
+  "main": "src/generator.js",
+  "bin": {
+    "design-token": "./bin/transform.js"
+  },
   "files": [
-    "dist",
+    "bin",
     "src",
-    "tailwind.config.js"
+    "example",
+    "dist",
+    "SPEC.md"
   ],
   "keywords": [
     "design-tokens",
