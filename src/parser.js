@@ -26,19 +26,32 @@ function parseTokens(json) {
     }
   };
 
-  // 获取数据源 - 支持两种格式
-  // 格式1: 直接的 "Primitive tokens" 等顶级 key
+  // 获取数据源 - 支持多种格式
+  // 格式1: 直接的 "Primitive tokens" / "primitive" 等顶级 key
   // 格式2: "PPIO/Mode 1" 等 collection 包裹
+  // 格式3: 多个 collection，需要智能选择或合并
   let data = json;
 
   // 检查是否是 collection 包裹格式
   const keys = Object.keys(json).filter(k => !k.startsWith('$'));
   if (keys.length > 0 && !json['Primitive tokens'] && !json['primitive']) {
-    // 可能是 collection 格式，取第一个 collection
-    const collectionKey = keys.find(k => typeof json[k] === 'object' && json[k] !== null);
-    if (collectionKey) {
-      data = json[collectionKey];
-      console.log(`  📂 检测到 Collection: ${collectionKey}`);
+    // 可能是 collection 格式，智能选择包含设计数据的 collection
+    const collectionKeys = keys.filter(k => typeof json[k] === 'object' && json[k] !== null);
+
+    // 优先选择包含 primitive/Primitive tokens/text/color 的 collection
+    const priorityKeys = ['primitive', 'Primitive tokens', 'text', 'color', 'Font'];
+    const bestCollection = collectionKeys.find(k => {
+      const obj = json[k];
+      return priorityKeys.some(pk => obj[pk] !== undefined);
+    });
+
+    if (bestCollection) {
+      data = json[bestCollection];
+      console.log(`  📂 检测到 Collection: ${bestCollection}`);
+    } else if (collectionKeys.length > 0) {
+      // 没有找到优先 collection，取第一个
+      data = json[collectionKeys[0]];
+      console.log(`  📂 检测到 Collection: ${collectionKeys[0]}`);
     }
   }
 
@@ -95,6 +108,50 @@ function parseTokens(json) {
       result.theme.colorStyles = {
         ...result.theme.colorStyles,
         ...flattenReferenceTokens(colorData, 'font-color')
+      };
+    }
+  }
+
+  // 解析 text（字体相关）- Figma Variables API 新格式
+  const textData = data['text'];
+  if (textData) {
+    // weight
+    if (textData.weight) {
+      result.variables.typography.fontWeight = {
+        ...result.variables.typography.fontWeight,
+        ...flattenNumberTokens(textData.weight, 'font-weight')
+      };
+    }
+
+    // size
+    if (textData.size) {
+      result.variables.typography.fontSize = {
+        ...result.variables.typography.fontSize,
+        ...flattenNumberTokens(textData.size, 'font-size')
+      };
+    }
+
+    // spacing (letter-spacing)
+    if (textData.spacing) {
+      result.variables.typography.fontSpacing = {
+        ...result.variables.typography.fontSpacing,
+        ...flattenNumberTokens(textData.spacing, 'font-spacing')
+      };
+    }
+
+    // height (line-height)
+    if (textData.height) {
+      result.variables.typography.lineHeight = {
+        ...result.variables.typography.lineHeight,
+        ...flattenNumberTokens(textData.height, 'line-height')
+      };
+    }
+
+    // color → theme
+    if (textData.color) {
+      result.theme.colorStyles = {
+        ...result.theme.colorStyles,
+        ...flattenReferenceTokens(textData.color, 'font-color')
       };
     }
   }
@@ -162,7 +219,7 @@ function parseTokens(json) {
   // 解析 frame（框架间距）
   const frameData = data['frame'] || data['frame-padding'];
   if (frameData) {
-    result.variables.framePadding = flattenTokens(frameData, 'frame');
+    result.variables.framePadding = flattenNestedTokens(frameData, 'frame');
   }
 
   // 解析 component-margin
@@ -175,11 +232,82 @@ function parseTokens(json) {
     result.variables.frameMargin = flattenTokens(data['frame-margin'], 'frame-margin');
   }
 
+  // 解析顶层扩展色板（Dark colors, Gray, Yellow Colors 等）
+  const colorGroupPatterns = [
+    'Dark colors', 'Gray', 'Yellow Colors', 'Orange Colors',
+    'Red Colors', 'Purple Colors', 'Green Colors', 'Blue Colors'
+  ];
+  for (const groupName of colorGroupPatterns) {
+    if (data[groupName]) {
+      const prefix = groupName.toLowerCase().replace(/\s+colors?/i, '').replace(/\s+/g, '-');
+      const colors = flattenColorTokens(data[groupName], prefix);
+      result.variables.colors = { ...result.variables.colors, ...colors };
+    }
+  }
+
+  // 解析 brand（品牌色）
+  if (data['brand']) {
+    const brandColors = flattenColorTokens(data['brand'], 'brand');
+    result.variables.colors = { ...result.variables.colors, ...brandColors };
+  }
+
+  // 解析基础字体属性
+  // fontFamilies
+  if (data['fontFamilies']) {
+    result.variables.typography.fontFamily = flattenTypographyTokens(data['fontFamilies'], 'font-family');
+  }
+
+  // lineHeights
+  if (data['lineHeights']) {
+    result.variables.typography.lineHeight = {
+      ...result.variables.typography.lineHeight,
+      ...flattenTypographyTokens(data['lineHeights'], 'line-height')
+    };
+  }
+
+  // fontWeights
+  if (data['fontWeights']) {
+    result.variables.typography.fontWeight = {
+      ...result.variables.typography.fontWeight,
+      ...flattenTypographyTokens(data['fontWeights'], 'font-weight')
+    };
+  }
+
+  // fontSize
+  if (data['fontSize']) {
+    result.variables.typography.fontSize = {
+      ...result.variables.typography.fontSize,
+      ...flattenTypographyTokens(data['fontSize'], 'font-size')
+    };
+  }
+
+  // letterSpacing
+  if (data['letterSpacing']) {
+    result.variables.typography.letterSpacing = flattenTypographyTokens(data['letterSpacing'], 'letter-spacing');
+  }
+
+  // paragraphSpacing
+  if (data['paragraphSpacing']) {
+    result.variables.typography.paragraphSpacing = flattenTypographyTokens(data['paragraphSpacing'], 'paragraph-spacing');
+  }
+
+  // 解析复合文字样式（Headings, Content, Table Text, Link）
+  const textStyleGroups = ['Headings', 'Content', 'Table Text', 'Link'];
+  for (const groupName of textStyleGroups) {
+    if (data[groupName]) {
+      const styles = parseTextStyles(data[groupName], groupName);
+      result.theme.textStyles = { ...result.theme.textStyles, ...styles };
+    }
+  }
+
   return result;
 }
 
 /**
  * 扁平化颜色 tokens
+ * 支持两种格式：
+ * 1. Token Studio 格式：$value 是字符串（hex 或引用）
+ * 2. Figma Variables API 格式：$value 是对象 { colorSpace, components, alpha, hex }
  */
 function flattenColorTokens(colorObj, prefix = '') {
   const result = {};
@@ -191,7 +319,12 @@ function flattenColorTokens(colorObj, prefix = '') {
 
     if (value.$value !== undefined) {
       // 叶子节点
-      result[sanitizeName(name)] = value.$value;
+      let colorValue = value.$value;
+      // Figma Variables API 格式：$value 是对象，包含 hex 字段
+      if (typeof colorValue === 'object' && colorValue !== null && colorValue.hex) {
+        colorValue = colorValue.hex;
+      }
+      result[sanitizeName(name)] = colorValue;
     } else if (typeof value === 'object') {
       // 嵌套对象，递归
       Object.assign(result, flattenColorTokens(value, name));
@@ -415,6 +548,109 @@ function sanitizeName(name) {
     .replace(/[^a-z0-9\-\u4e00-\u9fa5]/g, '-')  // 保留中文
     .replace(/-+/g, '-')
     .replace(/^-|-$/g, '');
+}
+
+/**
+ * 扁平化字体相关 tokens（保留原始值，不添加单位）
+ */
+function flattenTypographyTokens(obj, prefix) {
+  const result = {};
+
+  for (const [key, value] of Object.entries(obj)) {
+    if (key.startsWith('$')) continue;
+
+    if (value.$value !== undefined) {
+      const name = `${prefix}-${key}`;
+      result[sanitizeName(name)] = value.$value;
+    }
+  }
+
+  return result;
+}
+
+/**
+ * 解析复合文字样式（Headings, Content 等）
+ * 生成 mixin 所需的数据结构
+ */
+function parseTextStyles(obj, groupName) {
+  const result = {};
+  const groupPrefix = groupName.toLowerCase().replace(/\s+/g, '-');
+
+  for (const [styleName, styleObj] of Object.entries(obj)) {
+    if (styleName.startsWith('$')) continue;
+
+    // 跳过非样式对象
+    if (typeof styleObj !== 'object' || styleObj.$value !== undefined) continue;
+
+    const mixinName = sanitizeName(styleName);
+    const style = {};
+
+    // 提取样式属性
+    if (styleObj.fontFamily?.$value) {
+      style.fontFamily = resolveTypographyReference(styleObj.fontFamily.$value, 'font-family');
+    }
+    if (styleObj.fontWeight?.$value) {
+      style.fontWeight = resolveTypographyReference(styleObj.fontWeight.$value, 'font-weight');
+    }
+    if (styleObj.fontSize?.$value) {
+      style.fontSize = resolveTypographyReference(styleObj.fontSize.$value, 'font-size');
+    }
+    if (styleObj.lineHeight?.$value) {
+      style.lineHeight = resolveTypographyReference(styleObj.lineHeight.$value, 'line-height');
+    }
+    if (styleObj.letterSpacing?.$value) {
+      style.letterSpacing = resolveTypographyReference(styleObj.letterSpacing.$value, 'letter-spacing');
+    }
+    if (styleObj.textDecoration?.$value) {
+      style.textDecoration = resolveSimpleReference(styleObj.textDecoration.$value);
+    }
+    if (styleObj.textCase?.$value) {
+      style.textCase = resolveSimpleReference(styleObj.textCase.$value);
+    }
+
+    if (Object.keys(style).length > 0) {
+      result[mixinName] = style;
+    }
+  }
+
+  return result;
+}
+
+/**
+ * 解析字体相关引用，生成正确的 SCSS 变量名
+ * "{fontFamilies.tt-interphases-pro}" → "$font-family-tt-interphases-pro"
+ */
+function resolveTypographyReference(value, targetPrefix) {
+  if (typeof value !== 'string') return value;
+
+  if (value.startsWith('{') && value.endsWith('}')) {
+    const path = value.slice(1, -1);
+    const parts = path.split('.');
+
+    // 提取最后一个部分作为变量名
+    const varSuffix = parts.slice(1).join('-');
+    return `$${targetPrefix}-${sanitizeName(varSuffix)}`;
+  }
+
+  return value;
+}
+
+/**
+ * 解析简单引用（textDecoration, textCase 等）
+ * "{textDecoration.none}" → "none"
+ * "{textDecoration.underline}" → "underline"
+ */
+function resolveSimpleReference(value) {
+  if (typeof value !== 'string') return value;
+
+  if (value.startsWith('{') && value.endsWith('}')) {
+    const path = value.slice(1, -1);
+    const parts = path.split('.');
+    // 返回最后一部分
+    return parts[parts.length - 1];
+  }
+
+  return value;
 }
 
 module.exports = { parseTokens };

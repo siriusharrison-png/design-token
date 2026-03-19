@@ -114,6 +114,42 @@ function generateVariables(variables) {
       }
       content += '\n';
     }
+
+    // Line Height
+    if (variables.typography.lineHeight) {
+      content += '// Line Height\n';
+      for (const [name, value] of Object.entries(variables.typography.lineHeight)) {
+        content += `$${name}: ${value};\n`;
+      }
+      content += '\n';
+    }
+
+    // Font Family
+    if (variables.typography.fontFamily) {
+      content += '// Font Family\n';
+      for (const [name, value] of Object.entries(variables.typography.fontFamily)) {
+        content += `$${name}: ${value};\n`;
+      }
+      content += '\n';
+    }
+
+    // Letter Spacing
+    if (variables.typography.letterSpacing) {
+      content += '// Letter Spacing\n';
+      for (const [name, value] of Object.entries(variables.typography.letterSpacing)) {
+        content += `$${name}: ${value};\n`;
+      }
+      content += '\n';
+    }
+
+    // Paragraph Spacing
+    if (variables.typography.paragraphSpacing) {
+      content += '// Paragraph Spacing\n';
+      for (const [name, value] of Object.entries(variables.typography.paragraphSpacing)) {
+        content += `$${name}: ${value};\n`;
+      }
+      content += '\n';
+    }
   }
 
   // Stroke
@@ -177,9 +213,17 @@ function generateTheme(theme) {
   if (theme.textStyles && Object.keys(theme.textStyles).length > 0) {
     for (const [name, style] of Object.entries(theme.textStyles)) {
       content += `@mixin ${name} {\n`;
+      if (style.fontFamily) content += `  font-family: ${style.fontFamily};\n`;
       if (style.fontSize) content += `  font-size: ${style.fontSize};\n`;
       if (style.fontWeight) content += `  font-weight: ${style.fontWeight};\n`;
       if (style.lineHeight) content += `  line-height: ${style.lineHeight};\n`;
+      if (style.letterSpacing) content += `  letter-spacing: ${style.letterSpacing};\n`;
+      if (style.textDecoration && style.textDecoration !== 'none') {
+        content += `  text-decoration: ${style.textDecoration};\n`;
+      }
+      if (style.textCase && style.textCase !== 'none') {
+        content += `  text-transform: ${style.textCase};\n`;
+      }
       content += '}\n\n';
     }
   } else {
